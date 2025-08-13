@@ -1,0 +1,63 @@
+.topBar {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--Gray-5, #f2f2f2);
+  padding: 12px 22px;
+}
+.count {
+  color: #bfbfbf;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+}
+.buttonContainer {
+  display: flex;
+  gap: 4px;
+}
+.button {
+  display: flex;
+  height: 25px;
+  padding: 6px 10px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 30px;
+  border: 1px solid var(--Green-50, #268f3a);
+  background: var(--Gray-white, #fff);
+  color: #268f3a;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.active {
+  background: var(--Green-50, #268f3a);
+  color: #fff;
+}
+
+.cardSection {
+  margin: 16px 25px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px 30px;
+}
+.cardContainer {
+}
+.cardImage {
+  width: 150px;
+  height: 150px;
+  background-color: rgb(220, 220, 220);
+  margin-bottom: 4px;
+}
+.cardName,
+.cardPrice {
+  font-size: 10px;
+}
+.cardPrice {
+  font-weight: 600;
+  margin-top: 4px;
+  margin-bottom: 9px;
+}
+.cardDate {
+  font-size: 8px;
+  font-weight: 500;
+  color: #8c8c8c;
+}
