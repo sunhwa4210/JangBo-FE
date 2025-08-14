@@ -48,6 +48,7 @@
   background-color: rgb(220, 220, 220);
   margin-bottom: 4px;
   cursor: pointer;
+  border-radius: 2px;
 }
 .cartButton {
   background-image: url("../../assets/cart-default.svg");
