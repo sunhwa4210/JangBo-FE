@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styles from "./MarketPage.module.css";
-import Card from "./components/Cards.jsx";
+import ProductList from "./components/ProductList.jsx";
 
 export default function MarketPage({ label, active, onClick }) {
   const [activeSort, setActiveSort] = useState(0);
@@ -39,7 +39,8 @@ export default function MarketPage({ label, active, onClick }) {
           </button>
         </div>
       </div>
-      <Card />
+      {/* 상품 목록 */}
+      <ProductList />
 
       {/* <SortButton label="최신순" active={true} onClick={() => alert("클릭됨")} />
       <SortButton label="인기순" active={false} onClick={() => alert("클릭됨")} /> */}

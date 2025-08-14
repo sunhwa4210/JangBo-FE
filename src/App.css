@@ -1,6 +1,5 @@
 body {
   margin: 0;
-  background-color: #f9f9f9;
   display: flex;
   justify-content: center;
 }
@@ -9,5 +8,5 @@ body {
   width: 100%;
   max-width: 375px;
   min-height: 100vh;
-  background-color: #f9f9f9;
+  background-color: #fff;
 }
