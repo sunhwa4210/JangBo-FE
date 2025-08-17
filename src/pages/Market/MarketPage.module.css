@@ -1,3 +1,6 @@
+.header {
+  cursor: pointer;
+}
 .topBar {
   display: flex;
   justify-content: space-between;
@@ -32,50 +35,4 @@
 .active {
   background: var(--Green-50, #268f3a);
   color: #fff;
-}
-
-.cardSection {
-  margin: 16px 25px;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 24px 30px;
-}
-
-.cardImage {
-  position: relative; 
-  width: 150px;
-  height: 150px;
-  background-color: rgb(220, 220, 220);
-  margin-bottom: 4px;
-  cursor: pointer;
-  border-radius: 2px;
-}
-.cartButton {
-  background-image: url("../../assets/cart-default.svg");
-  position: absolute;
-  width: 24px;
-  height: 24px;
-  cursor: pointer;
-  border: none;
-  border-radius: 4px;
-  bottom: 8px;
-  right: 8px;
-}
-.cartIn {
-  background-image: url("../../assets/cart-in.svg");
-}
-.cardName,
-.cardPrice {
-  font-size: 10px;
-  cursor: pointer;
-}
-.cardPrice {
-  font-weight: 600;
-  margin-top: 4px;
-  margin-bottom: 9px;
-}
-.cardDate {
-  font-size: 8px;
-  font-weight: 500;
-  color: #8c8c8c;
 }

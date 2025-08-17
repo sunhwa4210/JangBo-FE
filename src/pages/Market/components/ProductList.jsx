@@ -1,23 +1,30 @@
 import { products } from "../product.js";
 //임시 더미데이터(상품)
-import styles from "../MarketPage.module.css";
+import styles from "./ProductList.module.css";
 
-// props에서 products 배열을 받아서 사용
-function ProductList() { 
+//api 연결 시  {products, onProductClick}로 수정
+function ProductList({ onProductClick }) {
   return (
-    <div className={styles.cardSection}>
+    <div className={styles.listSection}>
       {products.map((p) => (
         <div key={p.id}>
           <div
-            className={styles.cardImage}
+            className={styles.image}
+            onClick={() => onProductClick(p)} //상품 클릭 시 부모로 이벤트 전달
             // 이미지 삽입 전
             style={{ backgroundImage: `url(${p.imageUrl})` }}
           >
-            <button className={styles.cartButton} onClick={()=> console.log(`${p.name} 장바구니 추가`)}></button>
+            <button
+              className={styles.button}
+              onClick={(e) => {
+                e.stopPropagation();
+                console.log(`${p.name} 장바구니 추가`);
+              }}
+            ></button>
           </div>
-          <div className={styles.cardName}>{p.name}</div>
-          <div className={styles.cardPrice}>{p.price.toLocaleString()}원</div> 
-          <div className={styles.cardDate}>{p.endDate}까지</div>
+          <div className={styles.name}>{p.name}</div>
+          <div className={styles.price}>{p.price.toLocaleString()}원</div>
+          <div className={styles.date}>{p.endDate}까지</div>
         </div>
       ))}
     </div>

@@ -1,0 +1,137 @@
+.overlay {
+  position: fixed;
+  inset: 0; /*브라우저 전체 덮음*/
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  align-items: flex-end;
+  z-index: 999;
+}
+
+.sheet {
+  width: 100%;
+  max-width: 375px; /* 모바일 최대 너비 맞춤 */
+  height: 233px;
+  background: white;
+  border-radius: 12px 12px 0 0;
+  padding: 10px 22px;
+  box-shadow: 0 -4px 4px 0 rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+  animation: slideUp 0.3s ease-out;
+}
+.handle {
+  width: 80px;
+  height: 5px;
+  background-color: #595959;
+  border-radius: 50px;
+  margin: 0 auto;
+  margin-bottom: 42px;
+}
+.box {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 150px;
+}
+.image {
+  width: 75px;
+  height: 75px;
+  background-color: rgb(220, 220, 220);
+  border-radius: 2px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  flex-shrink: 0; /*줄어들지 않게*/
+}
+h3 {
+  font-size: 12px;
+  font-weight: 600;
+}
+h3,
+p {
+  margin: 0px;
+}
+.stock {
+  font-size: 10px;
+  color: #8c8c8c;
+}
+.container {
+  display: flex;
+  align-items: stretch;
+  gap: 12px; /*이미지와 간격*/
+}
+.textContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.info {
+  display: flex;
+  gap: 4px;
+  font-size: 11px;
+  color: #555;
+}
+.info span {
+  font-weight: 900;
+}
+.price {
+  font-size: 12px;
+  font-weight: 600;
+}
+.wrapper3 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* 수량 버튼  */
+.quantity {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: 1px solid #e0e0e0;
+  border-radius: 999px;
+  padding: 4px 5px;
+  background: #fff;
+}
+
+.quantity button {
+  border: #f2f2f2;
+  background: none;
+  font-size: 15px; /* +, - 크기 */
+  cursor: pointer;
+  line-height: 1; /* 버튼 안에서 수직 정렬 */
+}
+
+.quantity span {
+  font-size: 10px;
+  font-weight: 500;
+}
+.confirmButton {
+  width: 100%;
+  padding: 12px;
+  background: #28a745;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}

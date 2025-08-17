@@ -4,12 +4,12 @@ import "./App.css";
 
 import MarketPage from "./pages/Market/MarketPage.jsx";
 
-
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/market" element={<MarketPage />} />
+        {/* <Route path="/market/:storeId" element={<MarketPage />} /> */}
       </Routes>
     </BrowserRouter>
   );
