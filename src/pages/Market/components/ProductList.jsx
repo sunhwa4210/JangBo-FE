@@ -22,9 +22,16 @@ function ProductList({ onProductClick }) {
               }}
             ></button>
           </div>
-          <div className={styles.name}>{p.name}</div>
-          <div className={styles.price}>{p.price.toLocaleString()}원</div>
-          <div className={styles.date}>{p.endDate}까지</div>
+
+          <div className={styles.contents}>
+            <div>
+              <div className={styles.name}>{p.name}</div>
+              <div className={styles.price}>{p.price.toLocaleString()}원</div>
+              <div className={styles.date}>{p.endDate}까지</div>
+            </div>
+
+            <div className={styles.soldout}>품절</div>
+          </div>
         </div>
       ))}
     </div>

@@ -1,13 +1,14 @@
-import axios from 'axios';
+import axios from "axios";
 
 const api = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
-  timeout: 5000,   
+  timeout: 10000,
 });
 
 // 상품 API
-export const getProducts = async (storeId, sort) => {
-  const res = await api.get(`/products/merchants/${storeId}`, {
+export const getProducts = async (merchantId, sort) => {
+  console.log("getProducts 호출:", merchantId, sort);
+  const res = await api.get(`/api/products/merchants/${merchantId}`, {
     params: { sort },
   });
   return res.data;
@@ -15,9 +16,8 @@ export const getProducts = async (storeId, sort) => {
 
 // 상점 API
 export const getStore = async (storeId) => {
-  const res = await api.get(`/stores/${storeId}`);
+  const res = await api.get(`api/stores/${storeId}`);
   return res.data.store;
 };
-
 
 export default api;

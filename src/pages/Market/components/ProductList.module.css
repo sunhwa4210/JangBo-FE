@@ -46,3 +46,12 @@
   font-weight: 500;
   color: #8c8c8c;
 }
+.soldout {
+  color: #f13939;
+  font-size: 15px;
+  font-weight: 600;
+  margin-top:auto;
+}
+.contents {
+  display: flex;
+}

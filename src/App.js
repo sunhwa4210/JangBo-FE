@@ -9,7 +9,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/market" element={<MarketPage />} />
-        {/* <Route path="/market/:storeId" element={<MarketPage />} /> */}
+        <Route path="/market/:storeId" element={<MarketPage />} />
       </Routes>
     </BrowserRouter>
   );

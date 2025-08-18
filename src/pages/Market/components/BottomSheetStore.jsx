@@ -19,12 +19,13 @@ export default function BottomSheetStore({ isOpen, onClose, store }) {
 
         <div className={styles.title}>
           <h3>store.storeName</h3>
-          <p>매일 들여오는 신선육!</p>
+          <p>매일 들여오는 신선육!</p> 
+          {/* 추후 수정 */}
         </div>
         <hr />
 
-          <div className={styles.contents}>
-            <div className={styles.list}>
+        <div className={styles.contents}>
+          {/* <div className={styles.list}>
               <div className={styles.item}>
                 <img src={clock} />
                 <div>9:00 ~ 18:00</div>
@@ -45,10 +46,33 @@ export default function BottomSheetStore({ isOpen, onClose, store }) {
                 <img src={rate} />
                 <div>4.7</div>
               </div>
+              
+            </div> */}
+          <div className={styles.list}>
+            <div className={styles.item}>
+              <img src={clock} />
+              <div>{store?.openTime} ~ {store?.closeTime}</div>
             </div>
-
-            <div className={styles.image}></div>
+            <div className={styles.item}>
+              <img src={dayoff} />
+              <div>store.dayOff</div>
+            </div>
+            <div className={styles.item}>
+              <img src={phone} />
+              <div>store.storePhoneNumber</div>
+            </div>
+            <div className={styles.item}>
+              <img src={category} />
+              <div>store.category</div>
+            </div>
+            <div className={styles.item}>
+              <img src={rate} />
+              <div>store.rate</div>
+            </div>
           </div>
+          <div className={styles.image}></div>
+        </div>
+
         {/* <div className={styles.list}>
           <div className={styles.item}>
             <img src={clock} />
