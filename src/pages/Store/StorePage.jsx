@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import styles from "./MarketPage.module.css";
+import styles from "./StorePage.module.css";
 import ProductList from "./components/ProductList.jsx";
 import BottomSheetProduct from "./components/BottomSheetProduct.jsx";
 import BottomSheetStore from "./components/BottomSheetStore.jsx";

@@ -30,7 +30,8 @@ function ProductList({ onProductClick }) {
               <div className={styles.date}>{p.endDate}까지</div>
             </div>
 
-            <div className={styles.soldout}>품절</div>
+            {/* 재고 0개면 품절 표시 */}
+            {p.stock === 0 && <div className={styles.soldout}>품절</div>}
           </div>
         </div>
       ))}
