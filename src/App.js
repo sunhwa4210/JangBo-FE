@@ -8,6 +8,7 @@ import SignupSelectRole from "./pages/Signup/SignupSelectRole.jsx";
 import SignupForm from "./pages/Signup/SignupForm.jsx";
 import SignupSuccess from "./pages/Signup/SignupSuccess.jsx";
 import Login from "./pages/Login/index.jsx";
+import RegisterStore from "./pages/RegisterStore/RegisterStore.jsx";
 
 function App() {
   return (
@@ -24,6 +25,9 @@ function App() {
         <Route path="/signup/:role/success" element={<SignupSuccess />} />{" "}
         {/* 3단계: 완료 */}
         <Route path="/store/:storeId" element={<StorePage />} />
+        {/* 상점 세부 페이지 */}
+        <Route path="/registerstore" element={<RegisterStore />} />
+        {/* 상점 등록 페이지 */}
       </Routes>
     </BrowserRouter>
   );
