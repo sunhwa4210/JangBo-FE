@@ -1,0 +1,25 @@
+.container{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 22px;
+    margin-right: 22px;
+}
+.label{
+    margin-top: 40px;
+    align-self: flex-start;
+    text-align: left;
+}
+
+.buttonSelect{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    padding-top: 120px;
+    padding-bottom: 120px;
+}
+
+.next{
+    margin-bottom: 40px;
+}
