@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: process.env.REACT_APP_API_URL,
+  baseURL: process.env.REACT_APP_API_BASE_URL,
   timeout: 10000,
 });
 
@@ -16,7 +16,7 @@ export const getProducts = async (merchantId, sort) => {
 
 // 상점 API
 export const getStore = async (storeId) => {
-  const res = await api.get(`api/stores/${storeId}`);
+  const res = await api.get(`/api/stores/${storeId}`);
   return res.data.store;
 };
 

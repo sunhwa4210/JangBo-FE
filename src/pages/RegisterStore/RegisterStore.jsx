@@ -17,6 +17,8 @@ export default function RegisterStore() {
   const [intro, setIntro] = useState("");
   const [imageFile, setImageFile] = useState(null);
 
+  // state 추가
+  const [preview, setPreview] = useState(null);
   // 모든 값이 다 채워졌는지 검사
   const isFormValid =
     storeName.trim() &&
@@ -25,11 +27,11 @@ export default function RegisterStore() {
     openMin.trim() &&
     closeHour.trim() &&
     closeMin.trim() &&
-    dayOff.trim() &&
+    dayOff.length > 0 && // 배열 비어있는지 확인
     phone.trim() &&
     category.trim() &&
     intro.trim() &&
-    imageFile.trim();
+    imageFile; //file 객체 여부 확인
 
   // 요일 버튼 클릭
   const toggleDayOff = (day) => {
@@ -43,7 +45,13 @@ export default function RegisterStore() {
 
   // 이미지 업로드
   const handleFileChange = (e) => {
-    setImageFile(e.target.files[0]);
+    const file = e.target.files[0];
+    setImageFile(file);
+
+    if (file) {
+      const previewUrl = URL.createObjectURL(file); // 브라우저에서 미리보기 URL 생성
+      setPreview(previewUrl);
+    }
   };
 
   // API 호출
@@ -63,14 +71,15 @@ export default function RegisterStore() {
 
     try {
       const res = await axios.post(
-        `${process.env.REACT_APP_API_URL}/api/stores`,
+        `${process.env.REACT_APP_API_BASE_URL}/api/stores`,
         formData,
         { withCredentials: true } // 세션 쿠키 포함
       );
       console.log("상점 등록 성공:", res.data);
+      //   to = "/signup/:role/success";
     } catch (err) {
       console.error(err);
-    }
+    } //에러메시지 확인!!!!
   };
 
   return (
@@ -80,7 +89,11 @@ export default function RegisterStore() {
       <form onSubmit={handleSubmit}>
         {/* 상점 이미지 업로드 */}
         <div className={styles.imageSection}>
-          <div className={styles.image}></div>
+          <div className={styles.image}>
+            {preview && (
+              <img src={preview} className={styles.image} alt="상점 이미지" />
+            )}
+          </div>
           <input
             type="file"
             accept="image/*"
@@ -165,7 +178,8 @@ export default function RegisterStore() {
                 id="dayoff"
                 type="text"
                 placeholder="입력해주세요"
-                value={dayOff}
+                value={dayOff.join(", ")} //배열 -> 문자열 변환
+                readOnly //버튼으로만 입력하도록 (직접 입력 불가)
               />
             </div>
             <div className={styles.buttonContainer}>
@@ -252,15 +266,15 @@ export default function RegisterStore() {
           />
           <img />
         </div>
-      </form>
 
-      {/* 페이지 이동 경로 확인 */}
-      <CustomButton
-        label="완료"
-        className={styles.donebutton}
-        to="/signup/:role/success"
-        disabled={!isFormValid}
-      ></CustomButton>
+        {/* 페이지 이동 경로 확인 */}
+        <CustomButton
+          label="완료"
+          className={styles.donebutton}
+          disabled={!isFormValid}
+          type="submit"
+        ></CustomButton>
+      </form>
     </div>
   );
 }
