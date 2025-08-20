@@ -9,10 +9,12 @@ import CartFocus from "../assets/cart_focus.svg";
 
 function ManuBar() {
   const navigate = useNavigate();
-  const [active, setActive] = useState("홈");
+  const [active, setActive] = useState("");
 
   const styles = {
     bar: {
+      position: "fixed",
+      bottom: 0,
       height: 64,
       display: "flex",
       flexDirection: "row",
@@ -20,6 +22,7 @@ function ManuBar() {
       alignItems: "center",
       gap: 40,
       padding: "10px 80px",
+      zIndex: 100,
     },
     item: {
       display: "flex",

@@ -17,9 +17,8 @@ function SearchField ({label}) {
             borderRadius: "30px",
             backgroundColor: color.Green[5],
             border: "none",
-            padding: "14px 18px "
+            padding: "14px 18px ",
         },
-
         button:{
             backgroundColor: color.Green[50],
             width: "42px",
