@@ -7,7 +7,7 @@ import BottomSheetStore from "./components/BottomSheetStore.jsx";
 import { getProducts, getStore } from "../../api/api.js";
 import Header from "../../components/Header.jsx";
 
-export default function MarketPage() {
+export default function StorePage() {
   const { storeId } = useParams(); //URL에서 상점 ID 추출
   const [sort, setSort] = useState("recent"); //기본값 최신순
   const [products, setProducts] = useState([]);
@@ -25,10 +25,9 @@ export default function MarketPage() {
         //상점 데이터
         const storeRes = await getStore(storeId);
         console.log("상점 데이터:", storeRes);
-        const storeData = storeRes?.store ?? storeRes?.stores?.[0] ?? storeRes;
-        setStore(storeData);
+        setStore(storeRes);
 
-        //storeRes 안의 merchantId 추출
+        //store데이터 안의 merchantId 추출
         const merchantId = storeRes.merchantId;
         console.log("merchantId:", merchantId);
 
