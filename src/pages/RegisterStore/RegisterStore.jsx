@@ -4,6 +4,7 @@ import CustomButton from "../../components/CustomButton.jsx";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import http from "../../api/http.js";
 
 export default function RegisterStore() {
   const [storeName, setStoreName] = useState("");
@@ -72,16 +73,12 @@ export default function RegisterStore() {
     if (imageFile) formData.append("storeImage", imageFile);
 
     try {
-      const res = await axios.post(
-        `${process.env.REACT_APP_API_BASE_URL}/api/stores`,
-        formData,
-        { withCredentials: true } // 세션 쿠키 포함
-      );
+      const res = await http.post("/api/stores", formData); //프록시를 통해 쿠키 포함
       console.log("상점 등록 성공:", res.data);
       navigate("/signup/merchant/success");
     } catch (err) {
       console.error(err);
-    } 
+    }
   };
 
   return (
