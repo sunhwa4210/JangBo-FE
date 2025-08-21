@@ -37,7 +37,7 @@ export default function BottomSheetProduct({
               <div className={styles.info}>
                 <p className={styles.endDate}>
                   {" "}
-                  {product.endDate}까지 <span>·</span> 원산지 {product.origin}
+                  {product.expiryDate}까지 <span>·</span> 원산지 {product.origin}
                 </p>
               </div>
 
