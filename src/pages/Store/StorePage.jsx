@@ -25,7 +25,8 @@ export default function MarketPage() {
         //상점 데이터
         const storeRes = await getStore(storeId);
         console.log("상점 데이터:", storeRes);
-        setStore(storeRes.store);
+        const storeData = storeRes?.store ?? storeRes?.stores?.[0] ?? storeRes;
+        setStore(storeData);
 
         //storeRes 안의 merchantId 추출
         const merchantId = storeRes.merchantId;
@@ -64,7 +65,7 @@ export default function MarketPage() {
       {/* 경로명 맞게 수정, {store?.storeName}으로 수정 */}
       {/* <Header label={store.storeName} to="/home" onTitleClick={handleStoreClick} />   */}
       <Header
-        label="정다운 장터"
+        label={store.storeName}
         to="/home"
         onTitleClick={handleStoreClick}
       />

@@ -1,9 +1,6 @@
-import { products } from "../product.js";
-//임시 더미데이터(상품)
 import styles from "./ProductList.module.css";
 
-//api 연결 시  {products, onProductClick}로 수정
-function ProductList({ onProductClick }) {
+function ProductList({ products, onProductClick }) {
   return (
     <div className={styles.listSection}>
       {products.map((p) => (
@@ -27,7 +24,7 @@ function ProductList({ onProductClick }) {
             <div>
               <div className={styles.name}>{p.name}</div>
               <div className={styles.price}>{p.price.toLocaleString()}원</div>
-              <div className={styles.date}>{p.endDate}까지</div>
+              <div className={styles.date}>{p.expiryDate}까지</div>
             </div>
 
             {/* 재고 0개면 품절 표시 */}
