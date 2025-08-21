@@ -26,7 +26,7 @@ function App() {
         {/* 3단계: 완료 */}
         <Route path="/store/:storeId" element={<StorePage />} />
         {/* 상점 세부 페이지 */}
-        <Route path="/registerstore" element={<RegisterStore />} />
+        <Route path="/merchant/registerstore" element={<RegisterStore />} />
         {/* 상점 등록 페이지 */}
       </Routes>
     </BrowserRouter>
