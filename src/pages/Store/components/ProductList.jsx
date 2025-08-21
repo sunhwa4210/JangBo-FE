@@ -1,6 +1,7 @@
 import styles from "./ProductList.module.css";
+import { addCartItem } from "../../../api/api";
 
-function ProductList({ products, onProductClick }) {
+function ProductList({ products, onProductClick, handleAddCart }) {
   return (
     <div className={styles.listSection}>
       {products.map((p) => (
@@ -11,11 +12,12 @@ function ProductList({ products, onProductClick }) {
             // 이미지 삽입 전
             style={{ backgroundImage: `url(${p.imageUrl})` }}
           >
+            {/* //장바구니 버튼 */}
             <button
               className={styles.button}
               onClick={(e) => {
                 e.stopPropagation();
-                console.log(`${p.name} 장바구니 추가`);
+                handleAddCart(p);
               }}
             ></button>
           </div>

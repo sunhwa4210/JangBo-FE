@@ -6,6 +6,7 @@ import BottomSheetProduct from "./components/BottomSheetProduct.jsx";
 import BottomSheetStore from "./components/BottomSheetStore.jsx";
 import { getProducts, getStore } from "../../api/api.js";
 import Header from "../../components/Header.jsx";
+import { addCartItem } from "../../api/api.js";
 
 export default function StorePage() {
   const { storeId } = useParams(); //URL에서 상점 ID 추출
@@ -57,12 +58,31 @@ export default function StorePage() {
     setIsProductOpen(true);
   };
 
+  //장바구니 추가
+  const handleAddCart = async (product) => {
+    try {
+      const res = await addCartItem(product.id, 1);
+      alert(res.message);
+    } catch (err) {
+      const status = err.response?.status;
+      if (status === 400) {
+        alert("잘못된 요청입니다");
+      } else if (status === 401) {
+        alert("로그인이 필요합니다.");
+      } else if (status === 404) {
+        alert("상품 또는 상점을 찾을 수 없습니다.");
+      } else {
+        alert("알 수 없는 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+      }
+
+      console.error("장바구니 에러:", err);
+    }
+  };
+
   const count = products.length;
 
   return (
     <>
-      {/* 경로명 맞게 수정, {store?.storeName}으로 수정 */}
-      {/* <Header label={store.storeName} to="/home" onTitleClick={handleStoreClick} />   */}
       <Header
         label={store.storeName}
         to="/home"
@@ -93,18 +113,14 @@ export default function StorePage() {
       </div>
 
       {/* 상품 목록 컴포넌트에 product데이터&클릭이벤트 전달 */}
-      <ProductList products={products} onProductClick={handleProductClick} />
+      <ProductList products={products} onProductClick={handleProductClick} handleAddCart={handleAddCart}/>
 
       {/* 상품 바텀시트 */}
       <BottomSheetProduct
         isOpen={isProductOpen}
         onClose={() => setIsProductOpen(false)}
         product={selectedProduct}
-        onConfirm={(product, quantity) => {
-          console.log("장바구니 담김:", product, quantity);
-          // 장바구니 state에 추가하기
-          //setCartItems((prev) => [...prev, { ...product, quantity }]);
-        }}
+        onConfirm={(product, quantity) => handleAddCart(product, quantity)}
       />
 
       {/* 상점 바텀시트 */}
