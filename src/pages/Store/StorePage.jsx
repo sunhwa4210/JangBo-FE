@@ -21,11 +21,8 @@ export default function StorePage() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        console.log("fetchData 실행 storeId:", storeId, "sort:", sort);
-
         //상점 데이터
         const storeRes = await getStore(storeId);
-        console.log("상점 데이터:", storeRes);
         setStore(storeRes);
 
         //store데이터 안의 merchantId 추출
@@ -34,7 +31,6 @@ export default function StorePage() {
 
         //상품 데이터
         const productRes = await getProducts(merchantId, sort);
-        console.log("상품 데이터:", productRes);
         setProducts(productRes);
       } catch (err) {
         console.error(err);
@@ -53,7 +49,6 @@ export default function StorePage() {
 
   //상품 선택 시
   const handleProductClick = (product) => {
-    console.log("선택한 상품:", product);
     setSelectedProduct(product);
     setIsProductOpen(true);
   };
@@ -75,7 +70,7 @@ export default function StorePage() {
         alert("알 수 없는 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
       }
 
-      console.error("장바구니 에러:", err);
+      console.error(err);
     }
   };
 
@@ -84,7 +79,7 @@ export default function StorePage() {
   return (
     <>
       <Header
-        label={store.storeName}
+        label={store?.storeName}
         to="/home"
         onTitleClick={handleStoreClick}
       />
@@ -113,7 +108,11 @@ export default function StorePage() {
       </div>
 
       {/* 상품 목록 컴포넌트에 product데이터&클릭이벤트 전달 */}
-      <ProductList products={products} onProductClick={handleProductClick} handleAddCart={handleAddCart}/>
+      <ProductList
+        products={products}
+        onProductClick={handleProductClick}
+        handleAddCart={handleAddCart}
+      />
 
       {/* 상품 바텀시트 */}
       <BottomSheetProduct

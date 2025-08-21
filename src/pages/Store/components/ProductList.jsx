@@ -1,5 +1,4 @@
 import styles from "./ProductList.module.css";
-import { addCartItem } from "../../../api/api";
 
 function ProductList({ products, onProductClick, handleAddCart }) {
   return (
@@ -9,7 +8,6 @@ function ProductList({ products, onProductClick, handleAddCart }) {
           <div
             className={styles.image}
             onClick={() => onProductClick(p)} //상품 클릭 시 부모로 이벤트 전달
-            // 이미지 삽입 전
             style={{ backgroundImage: `url(${p.imageUrl})` }}
           >
             {/* //장바구니 버튼 */}

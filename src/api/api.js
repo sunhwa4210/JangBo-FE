@@ -8,7 +8,7 @@ const api = axios.create({
 // 상품 API
 export const getProducts = async (merchantId, sort) => {
   console.log("getProducts 호출:", merchantId, sort);
-  const res = await api.get("/api/products/merchants/${merchantId}", {
+  const res = await api.get(`/api/products/merchants/${merchantId}`, {
     params: { sort },
   });
   return res.data;
