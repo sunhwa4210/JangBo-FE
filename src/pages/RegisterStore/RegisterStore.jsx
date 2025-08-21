@@ -2,6 +2,7 @@ import styles from "./RegisterStore.module.css";
 import Header from "../../components/Header.jsx";
 import CustomButton from "../../components/CustomButton.jsx";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 export default function RegisterStore() {
@@ -16,6 +17,7 @@ export default function RegisterStore() {
   const [category, setCategory] = useState("");
   const [intro, setIntro] = useState("");
   const [imageFile, setImageFile] = useState(null);
+  const navigate = useNavigate();
 
   // state 추가
   const [preview, setPreview] = useState(null);
@@ -76,15 +78,15 @@ export default function RegisterStore() {
         { withCredentials: true } // 세션 쿠키 포함
       );
       console.log("상점 등록 성공:", res.data);
-      //   to = "/signup/:role/success";
+      navigate("/signup/merchant/success");
     } catch (err) {
       console.error(err);
-    } //에러메시지 확인!!!!
+    } 
   };
 
   return (
     <div>
-      <Header label="상점 관리" to="" />
+      <Header label="상점 등록" />
 
       <form onSubmit={handleSubmit}>
         {/* 상점 이미지 업로드 */}
