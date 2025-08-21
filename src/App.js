@@ -2,7 +2,6 @@ import React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import "./App.css";
 
-import MarketPage from "./pages/Market/MarketPage.jsx";
 import Splash from "./pages/Splash/index.jsx";
 import SignupSelectRole from "./pages/Signup/SignupSelectRole.jsx";
 import SignupForm from "./pages/Signup/SignupForm.jsx";
@@ -29,7 +28,6 @@ function App() {
 
         {/* 메인/마켓/기타 페이지 */}
         <Route path="/main" element={<Main />} />
-        <Route path="/market" element={<MarketPage />} />
         <Route path="/ai" element={<AiJangbo />} />
         <Route path="/cart" element={<Cart />} />
 
