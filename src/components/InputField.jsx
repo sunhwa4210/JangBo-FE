@@ -1,13 +1,21 @@
 import React from "react";
 
-function InputField({ label, icon, type = "text", value, onChange, placeholder }) {
+function InputField({
+  label,
+  icon,
+  type = "text",
+  value,
+  onChange,
+  placeholder,
+  rightElement, 
+}) {
   return (
     <div
       className="InputContainer"
       style={{
         height: "48px",
-        width: "331px",
-        border: "1px solid hsla(0, 0%, 85%, 1)", // 부모에만 border
+        width: "100%",   // 부모에서 너비 조절 가능
+        border: "1px solid hsla(0, 0%, 85%, 1)",
         display: "flex",
         alignItems: "center",
         boxSizing: "border-box",
@@ -25,8 +33,7 @@ function InputField({ label, icon, type = "text", value, onChange, placeholder }
           width: "48px",
           height: "100%",
           boxSizing: "border-box",
-          boxShadow: "inset -1px 0 0 hsla(0, 0%, 85%, 1)", 
-
+          boxShadow: "inset -1px 0 0 hsla(0, 0%, 85%, 1)",
         }}
       >
         <img
@@ -55,6 +62,20 @@ function InputField({ label, icon, type = "text", value, onChange, placeholder }
           background: "transparent",
         }}
       />
+
+      {/* 오른쪽 버튼/요소 */}
+      {rightElement && (
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "6px",
+            marginRight: "8px",
+          }}
+        >
+          {rightElement}
+        </div>
+      )}
     </div>
   );
 }
