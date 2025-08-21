@@ -8,23 +8,41 @@ import EmailIcon from "../../assets/mail.svg";
 import LockIcon from "../../assets/lock.svg";
 import User from "../../assets/user.svg";
 import Map from "../../assets/map-pin.svg";
+import { useParams } from "react-router-dom";
 
 import { useSignupForm } from "../../hook/useSignupForm";
 
 export default function SignupForm() {
+  const { role } = useParams(); // customer or merchant
+
   // 훅 호출
   const {
-    email, setEmail,
-    username, setUsername,
-    password, setPassword,
-    passwordConfirm, setPasswordConfirm,
-    emailConfirm, setEmailConfirm,
-    location, setLocation,
-    loading, msg, errMsg,
-    sending, verifying, cooldown, verified, devCode,
-    handleRequestCode, handleVerifyCode, handleSignup,
-    isRequestDisabled, isVerifyDisabled
-  } = useSignupForm();
+    email,
+    setEmail,
+    username,
+    setUsername,
+    password,
+    setPassword,
+    passwordConfirm,
+    setPasswordConfirm,
+    emailConfirm,
+    setEmailConfirm,
+    location,
+    setLocation,
+    loading,
+    msg,
+    errMsg,
+    sending,
+    verifying,
+    cooldown,
+    verified,
+    devCode,
+    handleRequestCode,
+    handleVerifyCode,
+    handleSignup,
+    isRequestDisabled,
+    isVerifyDisabled,
+  } = useSignupForm(role); //role전달
 
   return (
     <div className={styles.container}>
@@ -111,7 +129,11 @@ export default function SignupForm() {
                     opacity: isRequestDisabled ? 0.6 : 1,
                   }}
                 >
-                  {cooldown > 0 ? `재전송 (${cooldown}s)` : (sending ? "전송 중..." : "재전송")}
+                  {cooldown > 0
+                    ? `재전송 (${cooldown}s)`
+                    : sending
+                    ? "전송 중..."
+                    : "재전송"}
                 </button>
                 <button
                   onClick={handleVerifyCode}
@@ -145,7 +167,11 @@ export default function SignupForm() {
 
       {/* 가입 완료 버튼 */}
       <div>
-        <CustomButton label="완료" onClick={handleSignup} disabled={loading || !verified} />
+        <CustomButton
+          label="완료"
+          onClick={handleSignup}
+          disabled={loading || !verified}
+        />
       </div>
 
       {msg && <div style={{ marginTop: 12, color: "#0a7" }}>{msg}</div>}

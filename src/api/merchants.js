@@ -1,18 +1,16 @@
-// src/api/customer.js
-
 const BASE_URL =
   import.meta?.env?.VITE_API_BASE_URL ||
   process.env.REACT_APP_API_BASE_URL ||
-  "http://3.36.56.52:8080 ";
+  "http://3.36.56.52:8080";
 
-/** 고객 회원가입 */
-export async function signupCustomer({
+/** 상인 회원가입 */
+export async function signupMerchant({
   username,
   email,
   password,
   passwordConfirm,
 }) {
-  const res = await fetch(`${BASE_URL}/api/customers/signup`, {
+  const res = await fetch(`${BASE_URL}/api/merchants/signup`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ username, email, password, passwordConfirm }),
@@ -20,7 +18,7 @@ export async function signupCustomer({
 
   if (res.status === 201) {
     const data = await res.json();
-    return { ok: true, data }; // { created, customerId, email }
+    return { ok: true, data }; // { created, merchantrId, email }
   }
 
   let errBody = null;
@@ -51,9 +49,9 @@ export async function signupCustomer({
 }
 
 /** 이메일 인증코드 요청 */
-export async function requestEmailCodeCustomer({ email }) {
+export async function requestEmailCodeMerchant({ email }) {
   try {
-    const res = await fetch(`${BASE_URL}/api/customers/email/request`, {
+    const res = await fetch(`${BASE_URL}/api/merchants/email/request`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email }),
@@ -87,9 +85,9 @@ export async function requestEmailCodeCustomer({ email }) {
 }
 
 /** 이메일 인증코드 검증 */
-export async function verifyEmailCodeCustomer({ email, code }) {
+export async function verifyEmailCodeMerchant({ email, code }) {
   try {
-    const res = await fetch(`${BASE_URL}/api/customers/email/verify`, {
+    const res = await fetch(`${BASE_URL}/api/merchants/email/verify`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, code }),
