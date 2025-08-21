@@ -42,7 +42,15 @@ caption2: {
     fontSize: 11,
     fontWeight: "600",
  },
-
+ //Caption3
+caption3: {
+    fontSize: 10,
+    fontWeight: "400",
+ },
+ caption3Emphasized:{
+    fontSize: 10,
+    fontWeight: "600",
+ },
  //Body
 body: {
     fontSize: 17,
@@ -75,6 +83,10 @@ footnoteEmphasized: {
 headlineEmphasized: {
     fontSize: 18,
     fontWeight: "700",
+},
+//small
+small: {
+    fontSize: 8,
+    fontWeight: "600",
 }
-
 }
