@@ -11,6 +11,7 @@ import Main from "./pages/Main/Main.jsx";
 import AiJangbo from "./pages/AI/AiJangbo.jsx";
 import Cart from "./pages/Cart/Cart.jsx";
 import StorePage from "./pages/Store/StorePage.jsx";
+import RegisterStore from "./pages/RegisterStore/RegisterStore.jsx";
 
 function App() {
   return (
@@ -33,6 +34,9 @@ function App() {
 
         {/* 스토어 상세 */}
         <Route path="/store/:storeId" element={<StorePage />} />
+        {/* 상점 세부 페이지 */}
+        <Route path="/merchant/registerstore" element={<RegisterStore />} />
+        {/* 상점 등록 페이지 */}
       </Routes>
     </BrowserRouter>
   );
