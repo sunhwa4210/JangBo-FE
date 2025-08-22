@@ -62,11 +62,22 @@ export default function RegisterStore() {
     e.preventDefault();
 
     const formData = new FormData();
+    const dayMapping = {
+      월: "MONDAY",
+      화: "TUESDAY",
+      수: "WEDNESDAY",
+      목: "THURSDAY",
+      금: "FRIDAY",
+      토: "SATURDAY",
+      일: "SUNDAY",
+      연중무휴: "ALWAYS_OPEN",
+    };
+
+    dayOff.forEach((d) => formData.append("dayOff", dayMapping[d]));
     formData.append("storeName", storeName);
     formData.append("storeAddress", storeAddress);
     formData.append("openTime", `${openHour}:${openMin}`); //시,분 합쳐서 append
     formData.append("closeTime", `${closeHour}:${closeMin}`);
-    dayOff.forEach((d) => formData.append("dayOff", d));
     formData.append("storePhoneNumber", phone);
     formData.append("category", category);
     formData.append("intro", intro);
