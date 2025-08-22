@@ -20,4 +20,13 @@ export const getStore = async (storeId) => {
   return res.data.store;
 };
 
+//장바구니 API
+export const addCartItem = async (productId, quantity) => {
+  const res = await api.post(`/api/carts/items`, {
+    productId,
+    quantity,
+  });
+  return res.data;
+};
+
 export default api;
