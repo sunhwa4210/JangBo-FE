@@ -15,6 +15,8 @@ import StorePage from "./pages/Store/StorePage.jsx";
 
 import My from "./pages/My/index.jsx";
 import RegisterStore from "./pages/RegisterStore/RegisterStore.jsx";
+import MyStore from "./pages/MyStore/MyStore.jsx";
+import MerchantOrder from "./pages/MerchantOrder/MerchantOrder.jsx";
 
 function App() {
   return (
@@ -26,8 +28,8 @@ function App() {
         {/* 인증/온보딩 */}
         <Route path="/splash" element={<Splash />} />
         <Route path="/login" element={<Login />} />
-
         {/* 회원가입 단계별 페이지 */}
+
         <Route path="/signup" element={<SignupSelectRole />} />                 {/* 1단계: 타입 선택 */}
         <Route path="/signup/:role" element={<SignupForm />} />                 {/* 2단계: 폼 입력 */}
         <Route path="/signup/:role/success" element={<SignupSuccess />} />      {/* 3단계: 완료 */}
@@ -40,7 +42,12 @@ function App() {
 
         {/* 스토어 */}
         <Route path="/store/:storeId" element={<StorePage />} />
-        <Route path="/merchant/registerstore" element={<RegisterStore />} />    {/* 상점 등록 페이지 */}
+        {/* 상점 등록 페이지 */}
+        <Route path="/merchant/registerstore" element={<RegisterStore />} />
+        {/* 상인 메인 페이지 */}
+        <Route path="/merchant/mystore" element={<MyStore />} />
+        {/* 상인 주문/픽업 페이지 */}
+        <Route path="/merchant/order" element={<MerchantOrder />} />
       </Routes>
     </BrowserRouter>
   );

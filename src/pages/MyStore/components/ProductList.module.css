@@ -17,7 +17,17 @@
   background-repeat: no-repeat;
   background-size: cover;
 }
-.button {
+.editbtn {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  border: none;
+  border-radius: 4px;
+  bottom: 37px;
+  right: 8px;
+}
+.deletebtn {
   position: absolute;
   width: 24px;
   height: 24px;
@@ -27,9 +37,7 @@
   bottom: 8px;
   right: 8px;
 }
-.cartIn {
-  background-image: url("../../../assets/cart-in.svg");
-}
+
 .name,
 .price {
   font-size: 10px;

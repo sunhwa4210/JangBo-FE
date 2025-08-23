@@ -1,24 +1,32 @@
 import styles from "./ProductList.module.css";
-import cartdefault from "../../../assets/cart-default.svg";
-import cartin from "../../../assets/cart-in.svg";
+import { products } from "../product";
+import editBtn from "../../../assets/editbtn.svg";
+import deleteBtn from "../../../assets/deletebtn.svg";
 
-function ProductList({ products, onProductClick, handleAddCart }) {
+function ProductList({ products, handleDelete }) {
   return (
     <div className={styles.listSection}>
       {products.map((p) => (
         <div key={p.id}>
           <div
             className={styles.image}
-            onClick={() => onProductClick(p)} //상품 클릭 시 부모로 이벤트 전달
             style={{ backgroundImage: `url(${p.imageUrl})` }}
           >
-            {/* //장바구니 버튼 */}
+            {/* 수정 버튼 */}
             <button
-              className={styles.button}
-              style={{ backgroundImage: `url(${cartdefault})` }}
+              className={styles.editbtn}
+              style={{ backgroundImage: `url(${editBtn})` }}
               onClick={(e) => {
                 e.stopPropagation();
-                handleAddCart(p);
+              }}
+            ></button>
+            {/* 삭제 버튼 */}
+            <button
+              className={styles.deletebtn}
+              style={{ backgroundImage: `url(${deleteBtn})` }}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleDelete(p.id);
               }}
             ></button>
           </div>
@@ -28,6 +36,8 @@ function ProductList({ products, onProductClick, handleAddCart }) {
               <div className={styles.name}>{p.name}</div>
               <div className={styles.price}>{p.price.toLocaleString()}원</div>
               <div className={styles.date}>{p.expiryDate}까지</div>
+              <div className={styles.date}>{p.stock}까지</div>
+              <div className={styles.date}>{p.origin}까지</div>
             </div>
 
             {/* 재고 0개면 품절 표시 */}
