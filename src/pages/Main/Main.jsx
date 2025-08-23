@@ -1,39 +1,113 @@
-import React from "react";
-import ManuBar from "../../components/MenuBar"
+import React, { useEffect, useMemo, useState } from "react";
+import ManuBar from "../../components/MenuBar";
 import SearchField from "../../components/SearchField";
 import LogoHeader from "../../components/LogoHeader";
 import styles from "./Main.module.css";
 import Pin from "../../assets/pin.svg";
-import {typo} from "../../styles/typography";
+import { typo } from "../../styles/typography";
 import SortButton from "../../components/SortButton";
 import AdsBanner from "../../components/AdsBanner";
 import StoreList from "../../components/StoreList";
-function Main (){
-return(
-<div>
-<div className={styles.header}><LogoHeader></LogoHeader></div>
-<div className={styles.search}><SearchField labe="검색어를 입력하세요"/></div>
-<div className={styles.subheader}>
-<div className={styles.location}>
-<div><img src={Pin} alt="핀" className={styles.icon} width="20" height="20" /></div>
-<div style={typo.caption1Emphasized}>공릉도깨비시장</div>
-</div>
-<div className={styles.sort}>
-<SortButton label="최신순"/>
-<SortButton label="인기순"/>
-</div>
-</div>
-<AdsBanner/>
-<StoreList/>
-<StoreList/>
-<StoreList/>
-<StoreList/>
-<StoreList/>
-<ManuBar/>
-</div>
-) 
+import { fetchStores } from "../../api/stores";
 
+function Main() {
+  const [stores, setStores] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [err, setErr] = useState("");
+  const [sort, setSort] = useState("");       // "" | "recent"
+  const [keyword, setKeyword] = useState(""); // 입력 중
+  const [q, setQ] = useState("");             // 실제 검색 적용 값
+
+  // sort 변경 시 API 호출
+  useEffect(() => {
+    let alive = true;
+    (async () => {
+      setLoading(true);
+      setErr("");
+      try {
+        const data = await fetchStores({ sort });
+        if (!alive) return;
+        setStores(data);
+      } catch (e) {
+        if (!alive) return;
+        setErr(e?.message || "목록을 불러오지 못했습니다.");
+      } finally {
+        if (alive) setLoading(false);
+      }
+    })();
+    return () => { alive = false; };
+  }, [sort]);
+
+  // 클라 검색 필터
+  const filtered = useMemo(() => {
+    const query = q.trim().toLowerCase();
+    if (!query) return stores;
+    return stores.filter((s) => {
+      const fields = [
+        s?.storeName,
+        s?.category,
+        s?.storeAddress,
+        s?.storePhoneNumber,
+      ].map((v) => (v || "").toString().toLowerCase());
+      return fields.some((f) => f.includes(query));
+    });
+  }, [stores, q]);
+
+  const handleSortRecent = () => setSort("recent");
+  const handleSortPopular = () => {
+    // 임시: 이름 가나다 정렬 (서버 인기순 나오면 API로 교체)
+    const sorted = [...stores].sort((a, b) =>
+      (a.storeName || "").localeCompare(b.storeName || "", "ko")
+    );
+    setStores(sorted);
+    setSort(""); // 커스텀 정렬 상태 표시용
+  };
+
+  const handleSearchSubmit = () => setQ(keyword);
+
+  return (
+    <div>
+      <div className={styles.header}><LogoHeader /></div>
+
+      <div className={styles.search}>
+        <SearchField
+          label="검색어를 입력하세요"
+          value={keyword}
+          onChange={setKeyword}
+          onSubmit={handleSearchSubmit}
+        />
+      </div>
+
+      <div className={styles.subheader}>
+        <div className={styles.location}>
+          <div><img src={Pin} alt="핀" className={styles.icon} width="20" height="20" /></div>
+          <div style={typo.caption1Emphasized}>공릉도깨비시장</div>
+        </div>
+        <div className={styles.sort}>
+          <SortButton label="최신순" onClick={handleSortRecent} active={sort === "recent"} />
+          <SortButton label="인기순" onClick={handleSortPopular} active={sort === "" && q === ""} />
+        </div>
+      </div>
+
+      <AdsBanner />
+
+      <div style={{ padding: "8px 12px", fontSize: 12, opacity: 0.7 }}>
+        {q ? `‘${q}’ 검색 결과: ${filtered.length}개` : `전체 상점: ${filtered.length}개`}
+      </div>
+
+      <StoreList
+        stores={filtered}
+        loading={loading}
+        error={err}
+        onItemClick={(store) => {
+          // TODO: 상세로 라우팅 연결 (예: navigate(`/stores/${store.storeId}`))
+          console.log("clicked store", store);
+        }}
+      />
+
+      <ManuBar />
+    </div>
+  );
 }
 
-export default Main
-
+export default Main;

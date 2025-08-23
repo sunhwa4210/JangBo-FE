@@ -3,9 +3,10 @@ import Mypage from "../assets/btnMypage.svg";
 import Jangbo from "../assets/jangbo.svg";
 import {color} from "../styles/color";
 import {typo} from "../styles/typography";
-
+import { useNavigate } from "react-router-dom";
 function LogoHeader () {
-const styles={
+    const navigate = useNavigate();
+    const styles={
     container:{
         display: "flex",
         flexDirection: "row",
@@ -38,7 +39,7 @@ const styles={
 }
 return(
 <div style={styles.container} >
-<div><img src={Mypage} alt="마이"></img></div>
+<div><img src={Mypage} alt="마이" onClick={()=> navigate("/my")}></img></div>
 <div style={styles.logo}>
     <img src={Jangbo} alt="장보"></img>
     <div style={typo.subheadlineEmphasized}><span style={{ color: color.Green[50] }}>장보는</span>친구</div>
