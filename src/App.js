@@ -11,6 +11,7 @@ import Main from "./pages/Main/Main.jsx";
 import AiJangbo from "./pages/AI/AiJangbo.jsx";
 import Cart from "./pages/Cart/Cart.jsx";
 import StorePage from "./pages/Store/StorePage.jsx";
+import My from "./pages/My/index.jsx"
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
         <Route path="/main" element={<Main />} />
         <Route path="/ai" element={<AiJangbo />} />
         <Route path="/cart" element={<Cart />} />
+        <Route path="/my" element={<My />} />
 
         {/* 스토어 상세 */}
         <Route path="/store/:storeId" element={<StorePage />} />

@@ -1,4 +1,3 @@
-// src/components/CustomButton.jsx
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { color } from "../styles/color";
@@ -16,9 +15,7 @@ export default function CustomButton({
 
   const handleClick = (e) => {
     if (disabled) return;
-    // 1) 전달받은 onClick 먼저 실행(회원가입 POST 등)
     if (onClick) onClick(e);
-    // 2) to가 있으면 추가로 라우팅
     if (to) navigate(to);
   };
 
