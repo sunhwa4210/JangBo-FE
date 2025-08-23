@@ -25,6 +25,29 @@ export default function BottomSheetStore({ isOpen, onClose, store }) {
         <hr />
 
         <div className={styles.contents}>
+          {/* <div className={styles.list}>
+              <div className={styles.item}>
+                <img src={clock} />
+                <div>9:00 ~ 18:00</div>
+              </div>
+              <div className={styles.item}>
+                <img src={dayoff} />
+                <div className={styles.dayoff}>월 휴무</div>
+              </div>
+              <div className={styles.item}>
+                <img src={phone} />
+                <div>02-5555-4444</div>
+              </div>
+              <div className={styles.item}>
+                <img src={category} />
+                <div>정육/계란</div>
+              </div>
+              <div className={styles.item}>
+                <img src={rate} />
+                <div>4.7</div>
+              </div>
+              
+            </div> */}
           <div className={styles.list}>
             <div className={styles.item}>
               <img src={clock} />
@@ -50,7 +73,8 @@ export default function BottomSheetStore({ isOpen, onClose, store }) {
           <div className={styles.image}></div>
         </div>
 
-        <img src={store.storeImgUrl} />
+
+        {/* <img src={store.storeImgUrl} /> */}
       </div>
     </div>
   );

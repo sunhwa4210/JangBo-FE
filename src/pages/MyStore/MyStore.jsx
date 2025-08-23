@@ -1,79 +1,77 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import styles from "./StorePage.module.css";
+import styles from "./MyStore.module.css";
 import ProductList from "./components/ProductList.jsx";
-import BottomSheetProduct from "./components/BottomSheetProduct.jsx";
 import BottomSheetStore from "./components/BottomSheetStore.jsx";
-import { getProducts, getStore } from "../../api/api.js";
 import Header from "../../components/Header.jsx";
-import { addCartItem } from "../../api/api.js";
+import MerchantMenuBar from "../../components/MerchantMenuBar.jsx";
+import axios from "axios";
 
-export default function StorePage() {
+export default function MyStore() {
+  const api = axios.create({
+    baseURL: process.env.REACT_APP_API_BASE_URL,
+    timeout: 5000,
+    withCredentials: true,
+  });
+
+  // 상품 API
+  const getProducts = async (sort) => {
+    const res = await api.get("/api/merchants/products", {
+      params: { sort },
+    });
+    return res.data;
+  };
+
   const { storeId } = useParams(); //URL에서 상점 ID 추출
   const [sort, setSort] = useState("recent"); //기본값 최신순
   const [products, setProducts] = useState([]);
   const [store, setStore] = useState(null);
-  const [isProductOpen, setIsProductOpen] = useState(false);
   const [isStoreOpen, setIsStoreOpen] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState(null);
+  const navigate = useNavigate();
 
-  //상점+상품 데이터 불러오기
+  //상품 데이터 불러오기
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        //상점 데이터
-        const storeRes = await getStore(storeId);
-        setStore(storeRes);
-
-        //store데이터 안의 merchantId 추출
-        const merchantId = storeRes.merchantId;
-        console.log("merchantId:", merchantId);
-
         //상품 데이터
-        const productRes = await getProducts(merchantId, sort);
+        const productRes = await getProducts(sort);
         setProducts(productRes);
       } catch (err) {
         console.error(err);
       }
     };
-    //storeId 있을때만 api 호출하도록
-    if (storeId) {
-      fetchProducts();
-    }
-  }, [storeId, sort]);
+
+    fetchProducts();
+  }, [sort]);
 
   //상점명(헤더) 클릭 시
   const handleStoreClick = () => {
     setIsStoreOpen(true);
   };
 
-  //상품 선택 시
-  const handleProductClick = (product) => {
-    setSelectedProduct(product);
-    setIsProductOpen(true);
-  };
-
-  //장바구니 추가
-  const handleAddCart = async (product) => {
+  //상품 삭제
+  const handleDeleteProduct = async (productId) => {
     try {
-      const res = await addCartItem(product.id, 1);
-      alert(res.message);
+      await api.delete(`/api/merchants/products/${productId}`);
+      // 성공하면 로컬 상태에서 상품 제거
+      setProducts((prev) => prev.filter((p) => p.id !== productId));
+      alert("상품이 삭제되었습니다.");
     } catch (err) {
       const status = err.response?.status;
-      if (status === 400) {
-        alert("잘못된 요청입니다");
+      if (status === 404) {
+        alert("상품을 찾을 수 없습니다.");
       } else if (status === 401) {
         alert("로그인이 필요합니다.");
-      } else if (status === 404) {
-        alert("상품 또는 상점을 찾을 수 없습니다.");
       } else {
-        alert("알 수 없는 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+        alert("삭제 중 오류가 발생했습니다.");
       }
-
       console.error(err);
     }
   };
-
+  // 주문 픽업 버튼 클릭 시 페이지 이동
+  const handleButtonClick = () => {
+    navigate("/merchant/order");
+  };
   const count = products.length;
 
   return (
@@ -81,6 +79,25 @@ export default function StorePage() {
       <Header
         label={store?.storeName}
         onTitleClick={handleStoreClick}
+        button={
+          <button
+            style={{
+              border: "none",
+              width: "53px",
+              cursor: "pointer",
+              padding: "6px 10px",
+              borderRadius: "30px",
+              boxSizing: "border-box",
+              color: "#fff",
+              fontSize: "8px",
+              fontWeight: "600",
+              background: "#268F3A",
+            }}
+            onClick={handleButtonClick}
+          >
+            주문/픽업
+          </button>
+        }
       />
       <div className={styles.topBar}>
         <div className={styles.count}>판매 상품 {count}개</div>
@@ -107,19 +124,7 @@ export default function StorePage() {
       </div>
 
       {/* 상품 목록 컴포넌트에 product데이터&클릭이벤트 전달 */}
-      <ProductList
-        products={products}
-        onProductClick={handleProductClick}
-        handleAddCart={handleAddCart}
-      />
-
-      {/* 상품 바텀시트 */}
-      <BottomSheetProduct
-        isOpen={isProductOpen}
-        onClose={() => setIsProductOpen(false)}
-        product={selectedProduct}
-        onConfirm={(product, quantity) => handleAddCart(product, quantity)}
-      />
+      <ProductList products={products} onDelete={handleDeleteProduct} />
 
       {/* 상점 바텀시트 */}
       <BottomSheetStore
@@ -127,6 +132,8 @@ export default function StorePage() {
         onClose={() => setIsStoreOpen(false)}
         store={store}
       />
+
+      <MerchantMenuBar defaultActive="home" />
     </>
   );
 }
