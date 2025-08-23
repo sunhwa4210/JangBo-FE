@@ -11,7 +11,7 @@ import {
   verifyEmailCodeMerchant,
 } from "../api/merchants.js";
 
-export function useSignupForm(role = "customer") {
+export function useSignupForm(role) {
   // 1. 입력값 상태
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");

@@ -1,0 +1,149 @@
+.imageSection {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  width: 150px;
+  margin: 30px 112px;
+}
+.image {
+  width: 150px;
+  height: 150px;
+  border-radius: 2px;
+  background-color: #bfbfbf;
+}
+.imageButton {
+  display: flex;
+  height: 25px;
+  width: 90px;
+  background-color: white;
+  font-weight: 600;
+  font-size: 10px;
+  border-radius: 30px;
+  color: #268f3a;
+  border: 1px solid #268f3a;
+  padding: 6px 10px;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+/* 입력칸 */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  align-items: center;
+}
+.inputItem {
+  display: flex;
+  border-bottom: 0.333px solid var(--Gray-30, #a6a6a6);
+  height: 42px;
+  width: 315px;
+  align-items: center;
+}
+input {
+  color: #a6a6a6;
+}
+
+input,
+input:focus {
+  border: none;
+  outline: none;
+  display: flex;
+  font-size: 15px;
+}
+input:focus {
+  color: #292929;
+  font-weight: 600;
+}
+.timeContainer {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 20px;
+}
+.timeselect {
+  display: flex;
+}
+.timeInput {
+  width: 20px;
+  height: 23px;
+  text-align: center;
+}
+span {
+  color: #595959;
+  font-size: 15px;
+  font-weight: 600;
+}
+label {
+  color: #292929;
+  font-size: 15px;
+  width: 100px;
+  flex-shrink: 0;
+}
+
+.buttonContainer {
+  display: flex;
+  gap: 3px;
+  max-width: 300px;
+  margin-top: 12px;
+  flex-wrap: wrap; /* 너비 꽉 차면 다음 줄로*/
+  border: none !important;
+}
+.button {
+  display: flex;
+  height: 25px;
+  padding: 6px 10px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 30px;
+  border: 1px solid var(--Green-50, #268f3a);
+  background: var(--Gray-white, #fff);
+  color: #268f3a;
+  font-size: 10px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.active {
+  background: var(--Green-50, #268f3a);
+  color: #fff;
+}
+.buttonWrapper {
+  display: flex;
+}
+.aibutton,
+.writebutton {
+  cursor: pointer;
+  background: transparent;
+  color: var(--Green-50, #268f3a);
+  font-size: 12px;
+  font-weight: 600;
+  display: flex;
+  height: 33px;
+  padding: 7px 12px;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid var(--Gray-10, #dadada);
+}
+.writebutton {
+  color: #6c6c6c;
+  margin-right: 10px;
+}
+.writebutton:active {
+  color: #595959;
+  background: var(--Gray-5, #f2f2f2);
+}
+.aibutton:active {
+  color: #268f3a;
+  background: var(--Green-5, rgba(216, 240, 195, 0.5));
+}
+.donebutton {
+  display: flex;
+  margin: 0 auto;
+  margin-top: 30px;
+  justify-content: center;
+  align-items: center;
+}
