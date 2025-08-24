@@ -1,0 +1,25 @@
+.tablist {
+  max-width: 375px;
+  background-color: antiquewhite;
+  height: 55px;
+  display: flex;
+  border-bottom: 1px solid var(--Gray-20, #bfbfbf);
+}
+button {
+  font-size: 16px;
+  font-weight: 600;
+  border-bottom: 1px solid var(--Gray-20, #bfbfbf);
+  background: #f2f2f2;
+}
+.tab {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  cursor: pointer;
+  height: 100%;
+}
+.active {
+  background-color: #b2e79d;
+}

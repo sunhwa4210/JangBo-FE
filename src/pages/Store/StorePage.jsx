@@ -58,6 +58,7 @@ export default function StorePage() {
     try {
       const res = await addCartItem(product.id, 1);
       alert(res.message);
+      console.log(res);
     } catch (err) {
       const status = err.response?.status;
       if (status === 400) {
@@ -78,10 +79,7 @@ export default function StorePage() {
 
   return (
     <>
-      <Header
-        label={store?.storeName}
-        onTitleClick={handleStoreClick}
-      />
+      <Header label={store?.storeName} onTitleClick={handleStoreClick} />
       <div className={styles.topBar}>
         <div className={styles.count}>판매 상품 {count}개</div>
         <div className={styles.buttonContainer}>

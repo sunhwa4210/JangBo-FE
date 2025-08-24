@@ -2,7 +2,7 @@ import React from "react";
 import BackIcon from "../assets/back.svg";
 import { useNavigate } from "react-router-dom";
 
-function Header({ label, to, onTitleClick, button }) {
+function Header({ label, onTitleClick, button, leftButton }) {
   const navigate = useNavigate();
   const styles = {
     container: {
@@ -18,6 +18,7 @@ function Header({ label, to, onTitleClick, button }) {
       position: "absolute",
       left: "16px",
       cursor: "pointer",
+      marginBottom: "-3px",
     },
 
     title: {
@@ -33,15 +34,22 @@ function Header({ label, to, onTitleClick, button }) {
   };
   return (
     <div style={styles.container}>
-      <img
-        style={styles.backIcon}
-        src={BackIcon}
-        alt="back"
-        onClick={() => navigate(to)}
-      ></img>
+     {/* leftButton 있으면 그걸 렌더링, 없으면 기본 back */}
+      {leftButton ? (
+        <div style={styles.backIcon}>{leftButton}</div>
+      ) : (
+        <img
+          style={styles.backIcon}
+          src={BackIcon}
+          alt="back"
+          onClick={() => navigate(-1)} //이전 페이지로 이동
+        />
+      )}
+
       <div style={styles.title} onClick={onTitleClick}>
         {label}
       </div>
+
       {/* 조건부로 버튼 추가 */}
       {button && <div style={styles.button}>{button}</div>}
     </div>
