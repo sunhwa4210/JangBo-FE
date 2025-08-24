@@ -1,4 +1,5 @@
 import axios from "axios";
+import http from "./http";
 
 const api = axios.create({
   baseURL: process.env.REACT_APP_API_BASE_URL,
@@ -23,7 +24,7 @@ export const getStore = async (storeId) => {
 
 //장바구니 API
 export const addCartItem = async (productId, quantity) => {
-  const res = await api.post(`/api/carts/items`, {
+  const res = await http.post(`/api/carts/items`, {
     productId,
     quantity,
   });

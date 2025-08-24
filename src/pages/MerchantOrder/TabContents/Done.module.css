@@ -1,0 +1,17 @@
+.listbox {
+  display: flex;
+  padding: 20px 22px;
+  flex-direction: column;
+  border-bottom: 1px solid #bfbfbf;
+}
+.title {
+  display: flex;
+  justify-content: space-between;
+  color: #000;
+  font-weight: 600;
+}
+.time {
+  color: #a6a6a6;
+  font-size: 12px;
+  margin-top: 3px;
+}
