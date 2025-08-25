@@ -16,14 +16,27 @@ function StoreItem({ store, onClick }) {
       cursor: onClick ? "pointer" : "default",
     },
     left: { display: "flex", flexDirection: "row", gap: 20 },
-    imageWrap: { width: 50, height: 50, backgroundColor: "#eee", borderRadius: 8, overflow: "hidden" },
+    imageWrap: {
+      width: 50,
+      height: 50,
+      backgroundColor: "#eee",
+      borderRadius: 8,
+      overflow: "hidden",
+    },
     description: { display: "flex", flexDirection: "column", gap: 4 },
     name: { ...typo.footnoteEmphasized, fontWeight: 600, fontSize: 14 },
     starRow: { display: "flex", alignItems: "center", gap: 4 },
     subRow: { ...typo.caption2, display: "flex", gap: 8, fontSize: 12 },
     score: { ...typo.caption2Emphasized },
     img: { width: "100%", height: "100%", objectFit: "cover" },
-    placeholder: { width: "100%", height: "100%", display: "grid", placeItems: "center", color: "#aaa", fontSize: 12 },
+    placeholder: {
+      width: "100%",
+      height: "100%",
+      display: "grid",
+      placeItems: "center",
+      color: "#aaa",
+      fontSize: 12,
+    },
   };
 
   const rating = store?.rating ?? null;
@@ -33,7 +46,11 @@ function StoreItem({ store, onClick }) {
       <div style={styles.left}>
         <div style={styles.imageWrap}>
           {store?.storeimgUrl ? (
-            <img src={store.storeimgUrl} alt={store?.storeName ?? "상점"} style={styles.img} />
+            <img
+              src={`${process.env.REACT_APP_API_BASE_URL}${store.storeImgPath}`}
+              alt={store?.storeName ?? "상점"}
+              style={styles.img}
+            />
           ) : (
             // 필요하면 기본 이미지: <img src="/default-store.png" ... />
             <div style={styles.placeholder}>이미지 없음</div>
@@ -52,9 +69,9 @@ function StoreItem({ store, onClick }) {
 
           <div style={styles.subRow}>
             <div className="time">
-              {(store?.openTimeShort || store?.openTime?.slice(0, 5) || "")}
+              {store?.openTimeShort || store?.openTime?.slice(0, 5) || ""}
               {"~"}
-              {(store?.closeTimeShort || store?.closeTime?.slice(0, 5) || "")}
+              {store?.closeTimeShort || store?.closeTime?.slice(0, 5) || ""}
             </div>
             <div className="category">{store?.category}</div>
           </div>

@@ -1,23 +1,36 @@
-.logoSection{
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    margin-top: 80px;
-    margin-bottom: 80px;
+.container {
+  max-width: 375px;
+  padding: 22px;
+}
+.logoSection {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-top: 80px;
+  margin-bottom: 80px;
 }
 
-.loginSection{
-     display: flex;
-     flex-direction: column;
-     align-items: center;
+.loginSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
-
-.loginLabel{
-    text-align: left;
-    width: 331px;
+.title span {
+  font-size: 28px;
+  font-weight: 600;
 }
-
-.submitButton{
-    margin-top: 43px;
+span {
+  margin-left: -5px;
+}
+.loginLabel {
+  text-align: left;
+  width: 331px;
+}
+Input {
+  display: flex;
+  max-width: 331px;
+}
+.submitButton {
+  margin-top: 43px;
 }

@@ -88,59 +88,64 @@ export default function Login() {
   return (
     <div>
       <Header label="로그인" to="/splash" />
+      <div className={styles.container}>
+        <div className={styles.logoSection}>
+          <img src={JangboLogo} alt="logo" />
+          <div
+            className={styles.title}
+            style={{ ...typo.title1Emphasized, color: color.Green[50] }}
+          >
+            장보는 <span style={{ color: color.Grey[80] }}>친구</span>
+          </div>
+        </div>
 
-      <div className={styles.logoSection}>
-        <img src={JangboLogo} alt="logo" />
-        <div
-          className={styles.title}
-          style={{ ...typo.title1Emphasized, color: color.Green[50] }}
+        <form
+          className={styles.loginSection}
+          onSubmit={handleSubmit}
+          noValidate
         >
-          장보는 <span style={{ color: color.Grey[80] }}>친구</span>
-        </div>
-      </div>
+          <div className={styles.loginLabel} style={typo.footnote}>
+            회원 서비스 이용을 위해 로그인 해주세요.
+          </div>
 
-      <form className={styles.loginSection} onSubmit={handleSubmit} noValidate>
-        <div className={styles.loginLabel} style={typo.footnote}>
-          회원 서비스 이용을 위해 로그인 해주세요.
-        </div>
-
-        {/* 이메일 */}
-        <Input
-          ref={emailRef}
-          type="email"
-          label="이메일"
-          icon={EmailIcon}
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="이메일"
-          autoComplete="email"
-        />
-
-        {/* 비밀번호 */}
-        <Input
-          ref={passwordRef}
-          type="password"
-          label="비밀번호"
-          icon={LockIcon}
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="비밀번호"
-          autoComplete="current-password"
-        />
-
-        {/* 에러 메시지 */}
-        {errMsg && <div className={styles.errorText}>{errMsg}</div>}
-
-        {/* 제출 버튼 */}
-        <div className={styles.submitButton}>
-          <CustomButton
-            type="submit"
-            label={loading ? "로그인 중..." : "로그인"}
-            disabled={loading || !email || !password}
+          {/* 이메일 */}
+          <Input
+            ref={emailRef}
+            type="email"
+            label="이메일"
+            icon={EmailIcon}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="이메일"
+            autoComplete="email"
           />
+
+          {/* 비밀번호 */}
+          <Input
+            ref={passwordRef}
+            type="password"
+            label="비밀번호"
+            icon={LockIcon}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="비밀번호"
+            autoComplete="current-password"
+          />
+
+          {/* 에러 메시지 */}
           {errMsg && <div className={styles.errorText}>{errMsg}</div>}
-        </div>
-      </form>
+
+          {/* 제출 버튼 */}
+          <div className={styles.submitButton}>
+            <CustomButton
+              type="submit"
+              label={loading ? "로그인 중..." : "로그인"}
+              disabled={loading || !email || !password}
+            />
+            {errMsg && <div className={styles.errorText}>{errMsg}</div>}
+          </div>
+        </form>
+      </div>
     </div>
   );
 }

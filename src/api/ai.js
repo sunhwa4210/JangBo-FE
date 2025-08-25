@@ -1,5 +1,5 @@
 const BASE_URL =
-  (import.meta?.env?.VITE_API_BASE_URL || process.env.REACT_APP_API_BASE_URL || "http://localhost:8080")
+  (import.meta?.env?.VITE_API_BASE_URL || process.env.REACT_APP_API_BASE_URL || "https://localhost:8080")
     .replace(/\/+$/, "");
 
 async function req(path, { method = "GET", headers = {}, body } = {}) {
