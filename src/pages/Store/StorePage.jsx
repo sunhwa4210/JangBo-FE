@@ -6,7 +6,7 @@ import BottomSheetProduct from "./components/BottomSheetProduct.jsx";
 import BottomSheetStore from "./components/BottomSheetStore.jsx";
 import { getProducts, getStore, addCartItem } from "../../api/api.js";
 import Header from "../../components/Header.jsx";
-
+import ManuBar from "../../components/MenuBar.jsx";
 export default function StorePage() {
   const { storeId } = useParams(); // URL에서 상점 ID 추출
   const [sort, setSort] = useState("recent"); // 기본값: 최신순
@@ -83,7 +83,9 @@ export default function StorePage() {
           {["recent", "popular", "cheap", "fresh"].map((key) => (
             <button
               key={key}
-              className={`${styles.button} ${sort === key ? styles.active : ""}`}
+              className={`${styles.button} ${
+                sort === key ? styles.active : ""
+              }`}
               type="button"
               onClick={() => setSort(key)}
             >
@@ -120,6 +122,7 @@ export default function StorePage() {
         onClose={() => setIsStoreOpen(false)}
         store={store}
       />
+      <ManuBar />
     </>
   );
 }
