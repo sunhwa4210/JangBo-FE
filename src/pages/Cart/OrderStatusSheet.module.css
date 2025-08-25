@@ -1,0 +1,12 @@
+.section { padding: 0 16px 24px; }
+.title { font-size:20px; font-weight:700; margin:16px 0 8px; }
+.desc { font-size:13px; color:#444; white-space:pre-wrap; }
+.orderBox { margin-top:8px;   overflow:hidden; }
+.dropdown { width:100%; text-align:left; padding:12px 16px; background:#fafafa; border:0; border-bottom:1px solid #eee; }
+.list { padding:0 16px; }
+.totalRow { display:flex; justify-content:space-between; padding:12px 16px; border-top:1px dashed #eee; font-weight:600; }
+.footer { position:sticky; bottom:0; background:#fff; padding:12px 0; display:flex; gap:8px; }
+.cta { flex:1; height:48px; border-radius:12px; background:#1ea365; color:#fff; border:0; font-weight:700; }
+.secondary { flex:1; height:48px; border-radius:12px; background:#f2f2f2; border:0; }
+.loading { margin-top:8px; font-size:12px; color:#888; }
+.error { margin-top:8px; font-size:12px; color:#d00; }

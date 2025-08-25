@@ -1,0 +1,157 @@
+.loading { padding: 16px; }
+.error { padding: 16px; color: tomato; }
+
+/* 페이지 컨테이너 */
+.page {
+  color: #111;
+  background: #fff;
+  min-height: 100dvh;
+}
+
+/* 상단 컨트롤 바 */
+.topControls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+}
+
+.cb {
+  -webkit-appearance: none;
+  appearance: none;              /* 기본 체크박스 UI 제거 */
+  width: 22px;
+  height: 22px;
+  border-radius: 4px;
+  border: 1px solid #dfe3e6;
+  background: #fff;
+  display: inline-block;
+  vertical-align: middle;
+  cursor: pointer;
+  transition: background-color .15s ease, border-color .15s ease, box-shadow .15s ease;
+}
+
+.cb:focus-visible {
+  outline: 2px solid rgba(26, 156, 87, .35);
+  outline-offset: 2px;
+}
+
+.cb:checked {
+  background-color: #1a9c57;
+  border-color: #1a9c57;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg' fill='none' stroke='%23fff' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 14px 14px;   /* 체크 아이콘 크기 */
+}
+
+.cb:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+
+.cbLabel{
+    font-size: 11px;
+    font-weight: 400;
+}
+
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.topActions {
+  display: flex;
+  gap: 12px;
+}
+
+.textBtn {
+  color: #888;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+/* 아이템 리스트 */
+
+/* 메인으로 이동(더 담으러 가기) */
+.moreSection {
+  padding: 16px;
+  text-align: center;
+  color: #888;
+  border-top: 8px solid #f7f7f7;
+  border-bottom: 8px solid #f7f7f7;
+  max-height: 40px;
+}
+
+.moreBtn {
+  border: none;
+  background: #fff;
+  padding-top: 11px;
+  padding-bottom: 16px;
+  cursor: pointer;
+}
+
+/* 합계 영역 */
+.summary {
+  padding: 16px;
+  background: #f5faef;
+  max-height: 104px;
+  padding: 21px 22px;
+}
+
+.summaryRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.summaryLabel { font-size: 17px; font-weight: 600;}
+.summaryValue { font-size: 17px; font-weight: 600; }
+
+/* 하단 고정영역: 주문 버튼 + 하단 메뉴바 */
+.footer {
+  position: sticky;
+  bottom: 0;
+  padding: 16px;
+  background: #fff;
+  border-top: 1px solid #eee;
+  z-index: 10;
+}
+
+/* 주문 버튼(활성/비활성) */
+.orderBtn {
+  width: 100%;
+  height: 48px;
+  border-radius: 12px;
+  border: none;
+  background: #21a040;
+  color: #fff;
+  font-weight: 800;
+  font-size: 16px;
+  flex-direction: row;
+  align-items: center;
+
+}
+
+.orderBtnDisabled {
+  background: #cfe8d6;
+  cursor: not-allowed;
+}
+
+/* 선택 개수 뱃지 */
+.orderCount {
+  display: inline-block;
+  width: 21px;
+  height: 21px;
+  line-height: 22px;
+  border-radius: 10px;
+  background: white;
+  margin-right: 8px;
+  font-size: 12px;
+  text-align: center;
+  vertical-align: middle;
+  color: hsla(131, 58%, 35%, 1);
+}

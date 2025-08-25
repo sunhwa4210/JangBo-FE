@@ -1,0 +1,7 @@
+.row { display:grid; grid-template-columns: 48px 1fr auto auto; gap:12px; align-items:center; padding:10px 0; }
+.thumb { width:48px; height:48px; background:#eee; border-radius:8px; }
+.info { min-width:0; }
+.title { font-size:14px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.meta { font-size:12px; color:#666; }
+.qty { font-size:12px; color:#555; }
+.price { font-weight:600; }

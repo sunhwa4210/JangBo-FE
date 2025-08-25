@@ -10,7 +10,7 @@ function Splash () {
     return (
 <div className={styles.container}>
 <div className={styles.caption} style={typo.caption1}>우리동네 식자재 찾기부터 픽업까지</div>
-<div className={styles.title} style={{...typo.largeTitleEmphasized, color: color.Green[50]}}>장보는  <span style={{ color: color.Grey[80] }}>친구</span></div>
+<div className={styles.title} style={{...typo.largeTitleEmphasized, color: color.Green[50]}}>장보는  <span style={{ ...typo.largeTitleEmphasized,color: color.Grey[80] }}>친구</span></div>
 <div className={styles.logoBg} style={{color: color.Green[5]}}>
 <img className={styles.logo} src={JangboLogo} alt="logo"width={142} height={159}></img>
 </div>

@@ -95,7 +95,7 @@ export default function Login() {
           className={styles.title}
           style={{ ...typo.title1Emphasized, color: color.Green[50] }}
         >
-          장보는 <span style={{ color: color.Grey[80] }}>친구</span>
+          장보는 <span style={{ ...typo.title1Emphasized,color: color.Grey[80] }}>친구</span>
         </div>
       </div>
 
