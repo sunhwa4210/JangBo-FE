@@ -1,9 +1,14 @@
 import http from "./http";
-
+import axios from "axios";
 // const BASE_URL =
 //   import.meta?.env?.VITE_API_BASE_URL ||
 //   process.env.REACT_APP_API_BASE_URL ||
 //   "http://3.36.56.52:8080";
+const api = axios.create({
+  baseURL: "/api", // dev 프록시/배포 리버스 프록시 가정
+  withCredentials: true, // 세션 쿠키 전송
+  timeout: 8000,
+});
 
 /** 상인 회원가입 */
 export async function signupMerchant({
@@ -13,14 +18,14 @@ export async function signupMerchant({
   passwordConfirm,
 }) {
   try {
-    const res = await http.post("/api/merchants/signup", {
+    const res = await api.post("/merchants/signup", {
       username,
       email,
       password,
       passwordConfirm,
     });
-    
-    return { ok: true, data: res.data }; 
+
+    return { ok: true, data: res.data };
   } catch (err) {
     const status = err?.response?.status;
     const data = err?.response?.data || {};
@@ -52,7 +57,7 @@ export async function signupMerchant({
 /** 이메일 인증코드 요청 */
 export async function requestEmailCodeMerchant({ email }) {
   try {
-    const res = await http.post("/api/merchants/email/request", { email });
+    const res = await api.post("/merchants/email/request", { email });
     return {
       ok: true,
       status: res.status,
@@ -74,7 +79,7 @@ export async function requestEmailCodeMerchant({ email }) {
 /** 이메일 인증코드 검증 */
 export async function verifyEmailCodeMerchant({ email, code }) {
   try {
-    const res = await http.post("/api/merchants/email/verify", { email, code });
+    const res = await api.post("/merchants/email/verify", { email, code });
     return { ok: true, status: res.status, verified: !!res.data?.verified };
   } catch (err) {
     const status = err?.response?.status ?? 0;
