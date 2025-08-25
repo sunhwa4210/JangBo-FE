@@ -1,0 +1,173 @@
+.row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+/* 기본 박스 */
+.cb {
+  -webkit-appearance: none;
+  appearance: none;              /* 기본 체크박스 UI 제거 */
+  width: 22px;
+  height: 22px;
+  border-radius: 4px;
+  border: 1px solid #dfe3e6;
+  background: #fff;
+  display: inline-block;
+  vertical-align: middle;
+  cursor: pointer;
+  transition: background-color .15s ease, border-color .15s ease, box-shadow .15s ease;
+}
+
+/* 포커스 테두리 */
+.cb:focus-visible {
+  outline: 2px solid rgba(26, 156, 87, .35);
+  outline-offset: 2px;
+}
+
+/* 체크 상태 – 초록 배경 + 흰 체크 아이콘(SVG) */
+.cb:checked {
+  background-color: #1a9c57;
+  border-color: #1a9c57;
+  /* 하얀 체크 표시 */
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg' fill='none' stroke='%23fff' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 14px 14px;   /* 체크 아이콘 크기 */
+}
+
+/* 비활성 */
+.cb:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+
+
+.thumb {
+  width: 75px;
+  height: 75px;
+  border-radius: 8px;
+  background: #eee;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.thumbImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.meta {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.titleRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.title {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.remove {
+  margin-left: 8px;
+  font-size: 10px;
+  color: hsla(0, 87%, 59%, 1);
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.store {
+  font-size: 10px;
+  color: hsla(0, 0%, 16%, 1);
+}
+
+.bottomRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.qtyRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.qtyBtn {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  background: #fff;
+  cursor: pointer;
+}
+
+.qtyVal {
+  min-width: 20px;
+  text-align: center;
+  font-size: 13px;
+}
+
+.price {
+  width: 80px;
+  text-align: right;
+  font-weight: 600;
+  white-space: nowrap;
+  font-size: 12px;
+}
+
+.stepper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;                 /* - / 수량 / + 간 간격 */
+  height: 24px;
+  width: 63px;
+  background: #fff;
+  border: 0.8px solid hsla(0, 0%, 95%, 1);  /* 연한 테두리 */
+  border-radius: 30px;
+  padding: 4px 5px;
+}
+
+/* 아이콘처럼 보이게 */
+.stepper button {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;          /* +, - 크기 */
+  font-weight: 500;
+  color: #111;
+  cursor: pointer;
+}
+
+/* 호버/활성 피드백 */
+.stepper button:hover { background: rgba(0,0,0,0.04); }
+.stepper button:active { transform: translateY(0.5px); }
+.stepper button[disabled] {
+  opacity: .45;
+  cursor: not-allowed;
+  background: transparent;
+}
+
+/* 수량 숫자 */
+.stepper span {
+  text-align: center;
+  font-size: 10px;
+  font-weight: 400;
+  color: #111;
+}

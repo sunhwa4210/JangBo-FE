@@ -68,7 +68,7 @@ function Main() {
 
   const handleSearchSubmit = () => setQ(keyword);
 
-  // ✅ 리스트 아이템 클릭 시 라우팅 (안전 가드 포함)
+
   const handleStoreItemClick = (store, idFromList) => {
     const id =
       idFromList ??
@@ -118,10 +118,10 @@ function Main() {
         stores={filtered}
         loading={loading}
         error={err}
-        onItemClick={handleStoreItemClick}  // ← 여기서 명확히 라우팅 제어
+        onItemClick={handleStoreItemClick} 
       />
 
-      <ManuBar />
+     <div className={styles.footer}> <ManuBar /></div> 
     </div>
   );
 }

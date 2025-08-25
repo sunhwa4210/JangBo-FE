@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate, useParams } from "react-router-dom";
 import "./App.css";
 
 import Splash from "./pages/Splash/index.jsx";
@@ -10,16 +10,32 @@ import Login from "./pages/Login/index.jsx";
 import Main from "./pages/Main/Main.jsx";
 import AiJangbo from "./pages/AI/AiJangbo.jsx";
 import Cart from "./pages/Cart/Cart.jsx";
+import Pay from "./pages/Cart/Pay.jsx";
+
 import StorePage from "./pages/Store/StorePage.jsx";
 import My from "./pages/My/index.jsx";
+
+// 상인/가게 관리
 import RegisterStore from "./pages/MerchantManage/ManageStore/RegisterStore.jsx";
+import EditStore from "./pages/MerchantManage/ManageStore/EditStore.jsx";
 import MyStore from "./pages/MyStore/MyStore.jsx";
 import MerchantOrder from "./pages/MerchantOrder/MerchantOrder.jsx";
 import AddProduct from "./pages/MerchantManage/ManageProduct/AddProduct.jsx";
 import EditProduct from "./pages/MerchantManage/ManageProduct/EditProduct.jsx";
-import EditStore from "./pages/MerchantManage/ManageStore/EditStore.jsx";
 import MerchantMy from "./pages/My/MerchantMypage.jsx";
+
+// 리뷰
 import PickupComplete from "./pages/Review/PickUpComplete.jsx";
+
+// 숫자만 유효한 storeId 허용
+const isValidStoreId = (id) => typeof id === "string" && /^[0-9]+$/.test(id);
+
+// 라우터 가드: 잘못된 storeId 접근 시 /main으로 리다이렉트
+function StoreGuard() {
+  const { storeId } = useParams();
+  if (!isValidStoreId(storeId)) return <Navigate to="/main" replace />;
+  return <StorePage />;
+}
 
 function App() {
   return (
@@ -41,17 +57,21 @@ function App() {
         <Route path="/main" element={<Main />} />
         <Route path="/ai" element={<AiJangbo />} />
         <Route path="/cart" element={<Cart />} />
+        <Route path="/pay" element={<Pay />} />
         <Route path="/my" element={<My />} />
 
-        {/* 상점 세부 페이지(표준 경로) */}
-        <Route path="/stores/:storeId" element={<StorePage />} />
+        {/* 상점 상세(가드 적용) */}
+        <Route path="/stores/:storeId" element={<StoreGuard />} />
 
         {/* 상점 등록/수정 */}
         <Route path="/merchant/registerstore" element={<RegisterStore />} />
         <Route path="/merchant/editstore/:storeId" element={<EditStore />} />
 
         {/* 상인 영역 */}
+        {/* 팀 브랜치 차이를 흡수: 파라미터 유무 둘 다 허용 */}
+        <Route path="/merchant/mystore" element={<MyStore />} />
         <Route path="/merchant/mystore/:storeId" element={<MyStore />} />
+
         <Route path="/merchant/order" element={<MerchantOrder />} />
         <Route path="/merchant/addproduct" element={<AddProduct />} />
         <Route path="/merchant/editproduct/:productId" element={<EditProduct />} />

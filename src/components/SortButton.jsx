@@ -5,7 +5,7 @@ import { typo } from "../styles/typography";
 function SortButton({ label, active = false, onClick }) {
   const baseStyle = {
     ...typo.caption3Emphasized,
-    minWidth: 56,
+    width: 48,
     height: 25,
     padding: "0 10px",
     borderRadius: "30px",
