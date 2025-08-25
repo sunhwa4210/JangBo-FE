@@ -47,7 +47,7 @@ export default function AddProduct() {
         headers: { "Content-Type": "application/json" }, // 명시적으로 추가
       });
       console.log("상품 등록 성공:", res.data);
-      navigate("/merchant/mystore");
+      navigate(-1);
     } catch (err) {
       console.error("상품 등록 실패");
     }

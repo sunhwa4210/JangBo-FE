@@ -41,6 +41,7 @@ function ManuBar() {
       fontSize: 12,
       color: isActive ? "green" : "black",
       fontWeight: isActive ? "600" : "400",
+      margin: 0,
     }),
   };
 

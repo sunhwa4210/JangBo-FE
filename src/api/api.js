@@ -1,8 +1,14 @@
 import axios from "axios";
+// const BASE_URL =
+//   import.meta?.env?.VITE_API_BASE_URL ||
+//   process.env.REACT_APP_API_BASE_URL ||
+//   "http://3.36.56.52:8080";
 
 const api = axios.create({
-  baseURL: "/api",          // dev 프록시/배포 리버스 프록시 가정
-  withCredentials: true,    // 세션 쿠키 전송
+
+  baseURL: "http://3.36.56.52:8080",           // dev 프록시/배포 리버스 프록시 가정
+  withCredentials: true,     // 세션 쿠키 전송
+
   timeout: 8000,
 });
 

@@ -3,20 +3,38 @@ import Modal from "./Modal";
 import OrderAcceptModal from "./OrderAcceptModal.jsx";
 import styles from "./Waiting.module.css";
 import http from "../../../api/http";
+import BottomSheet from "./BottomSheet.jsx";
 
 export default function Waiting({ orders, onRemove }) {
   const [isCancelOpen, setIsCancelOpen] = useState(false);
   const [isAcceptOpen, setIsAcceptOpen] = useState(false);
+  const [isOrderOpen, setIsOrderOpen] = useState(false); // 주문 상세 바텀시트 열림 여부
   const [selectedOrder, setSelectedOrder] = useState(null); // 현재 선택된 주문
 
+  const order = {
+    customerName: "김슈니",
+    orderDate: "2025-08-10 13:11:59",
+    quantity: "1개",
+    customerEmail: "swudam@gmail.com",
+    productName: "샘표 진간장 500ml",
+    price: "15,000원",
+    totalPrice: "35,000원",
+  };
+  // 주문 취소
   const handleCancelClick = (order) => {
     setSelectedOrder(order);
-    setIsCancelOpen(true);
+    setIsCancelOpen(true); //취소 모달창
   };
-
+  // 주문 수락
   const handleAcceptClick = (order) => {
     setSelectedOrder(order);
-    setIsAcceptOpen(true);
+    setIsAcceptOpen(true); //수락 모달창
+  };
+
+  // 주문자 선택시
+  const handleOrderClick = (order) => {
+    setSelectedOrder(order);
+    setIsOrderOpen(true); //주문 상세 바텀시트
   };
 
   const handleConfirmCancel = async () => {
@@ -52,7 +70,7 @@ export default function Waiting({ orders, onRemove }) {
     <>
       {/* 데이터 있을 시 주석 해제 */}
       {/* {orders.map((order) => (
-        <div key={order.orderId} className={styles.listbox}>
+        <div key={order.orderId} className={styles.listbox} onClick={() => handleOrderClick(order)}>
           <div className={styles.title}>
             <div>{order.customerName}</div>
             <div>{order.totalPrice.toLocaleString()}원</div>
@@ -61,20 +79,20 @@ export default function Waiting({ orders, onRemove }) {
           <div className={styles.btnwrapper}>
             <button
               className={styles.cancel}
-              onClick={() => handleCancelClick(order)}
+              onClick={(e) => e.stopPropagation(); handleCancelClick(order)}
             >
               주문 취소
             </button>
             <button
               className={styles.accept}
-              onClick={() => handleAcceptClick(order)}
+              onClick={(e) => e.stopPropagation(); handleAcceptClick(order)}
             >
               주문 수락
             </button>
           </div>
         </div>
       ))} */}
-      <div className={styles.listbox}>
+      <div className={styles.listbox} onClick={handleOrderClick}>
         <div className={styles.title}>
           <div>김슈니</div>
           <div>18,800원</div>
@@ -89,6 +107,15 @@ export default function Waiting({ orders, onRemove }) {
           </button>
         </div>
       </div>
+
+      {/* 주문상세 바텀시트 */}
+      <BottomSheet
+        isOpen={isOrderOpen}
+        onClose={() => setIsOrderOpen(false)}
+        // order={selectedOrder} //데이터 연결시
+        order={order}
+      />
+
       {/* 주문취소 모달 */}
       <Modal
         isOpen={isCancelOpen}

@@ -28,7 +28,7 @@ function SignupSuccess() {
         <span style={{ ...typo.bodyEmphasized, color: color.Green[50] }}>
           장보는
         </span>
-        <span style={typo.bodyEmphasized}>친구와</span> 함께 해요
+        <span style={typo.bodyEmphasized}> 친구와</span> 함께 해요 :)
       </div>
 
       <CustomButton

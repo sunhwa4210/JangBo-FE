@@ -6,7 +6,11 @@ import Jangbo from "../../assets/jangbo.svg";
 import { typo } from "../../styles/typography";
 import { color } from "../../styles/color";
 import styles from "./AiJangbo.module.css";
-import { analyzeQuestion, getRecommendations, bulkAddToCart } from "../../api/ai";
+import {
+  analyzeQuestion,
+  getRecommendations,
+  bulkAddToCart,
+} from "../../api/ai";
 import Minus from "../../assets/minus.svg";
 import Plus from "../../assets/plus.svg";
 import Cart from "../../assets/cart.svg";
@@ -41,7 +45,9 @@ function AiJangbo() {
 
   const [phase, setPhase] = useState("idle"); // idle | loadingAnalyze | awaitFilter | loadingRecommend | done | error
   const [question, setQuestion] = useState("");
+
   const [answer, setAnswer] = useState("");
+
   const [ingredients, setIngredients] = useState([]);
   const [filter, setFilter] = useState("");
   const [result, setResult] = useState(null);
@@ -126,7 +132,8 @@ function AiJangbo() {
 
   // 수량 증감
   const inc = (id) => setQtyMap((m) => ({ ...m, [id]: (m[id] || 1) + 1 }));
-  const dec = (id) => setQtyMap((m) => ({ ...m, [id]: Math.max(1, (m[id] || 1) - 1) }));
+  const dec = (id) =>
+    setQtyMap((m) => ({ ...m, [id]: Math.max(1, (m[id] || 1) - 1) }));
 
   // 개별 담기
   const addOne = async (productId) => {
@@ -147,7 +154,9 @@ function AiJangbo() {
       setAddedMap((m) => {
         const next = { ...m }; delete next[productId]; return next;
       });
+
       alert(e?.serverMsg || "담기에 실패했어요.");
+
     } finally {
       setBusy(false);
     }
@@ -166,16 +175,20 @@ function AiJangbo() {
       setBulkDone(true);
       setAddedMap((m) => {
         const next = { ...m };
-        result.picks.forEach(({ product }) => { next[product.id] = true; });
+        result.picks.forEach(({ product }) => {
+          next[product.id] = true;
+        });
         return next;
       });
     } catch (e) {
       console.error("[bulkAddToCart all] error:", e);
+
       if (e?.status === 401) {
         navigate("/login", { replace: true, state: { redirectTo: location.pathname } });
         return;
       }
       alert(e?.serverMsg || "담기에 실패했어요.");
+
     } finally {
       setBusy(false);
     }
@@ -228,10 +241,12 @@ function AiJangbo() {
 
   return (
     <div className={styles.container}>
+
       <div><LogoHeader /></div>
 
       <div className={styles.chatSection}>
         {(phase === "awaitFilter" || phase === "loadingRecommend" || phase === "done" || phase === "error") ? (
+
           <div className={styles.qSection}>
             <div className={styles.qTitle}>{question}</div>
           </div>
@@ -239,7 +254,10 @@ function AiJangbo() {
           <>
             <div style={typo.subheadlineEmphasized}>우리 동네 식자재 찾기</div>
             <div className={styles.subtitle} style={typo.headlineEmphasized}>
-              <span style={{ color: color.Green[50] }}>AI 장보</span>가 도와드릴게요!
+              <span style={{ color: color.Green[50], fontSize: "18px" }}>
+                AI 장보
+              </span>
+              가 도와드릴게요!
             </div>
           </>
         )}
@@ -257,26 +275,41 @@ function AiJangbo() {
           </div>
         )}
 
+
+
         {(phase === "awaitFilter" || phase === "loadingRecommend" || phase === "done" || phase === "error") && (
+
           <div className={styles.resultCard}>
             {err ? (
               <div className={styles.error}>{err}</div>
             ) : (
               <>
                 <div className={styles.aiHeader}>
-                  <img className={styles.ailogo} src={Jangbo} alt="" width={30} height={30} />
+                  <img
+                    className={styles.ailogo}
+                    src={Jangbo}
+                    alt=""
+                    width={30}
+                    height={30}
+                  />
                   <span className={styles.aiText}>AI 장보의 답변</span>
                 </div>
 
                 {!!answer && (
                   <p className={styles.answer}>
                     {(() => {
-                      const normalize = (s) => s.replace(/[^\p{L}\p{N}]+/gu, "").trim();
-                      const ingSet = new Set(ingredients.map((x) => normalize(x)));
-                      const tokens = answer.split(/(\s+|[,.!?:;~()[\]{}"“”'’…-]+)/);
+                      const normalize = (s) =>
+                        s.replace(/[^\p{L}\p{N}]+/gu, "").trim();
+                      const ingSet = new Set(
+                        ingredients.map((x) => normalize(x))
+                      );
+                      const tokens = answer.split(
+                        /(\s+|[,.!?:;~()[\]{}"“”'’…-]+)/
+                      );
                       let brInserted = false;
                       return tokens.map((token, i) => {
-                        if (/^\s+$|^[,.!?:;~()[\]{}"“”'’…-]+$/.test(token)) return token;
+                        if (/^\s+$|^[,.!?:;~()[\]{}"“”'’…-]+$/.test(token))
+                          return token;
                         const norm = normalize(token);
                         const isIngredient = norm && ingSet.has(norm);
                         if (isIngredient && !brInserted) {
@@ -284,12 +317,18 @@ function AiJangbo() {
                           return (
                             <React.Fragment key={i}>
                               <br />
-                              <strong className={styles.answerBold}>{token}</strong>
+                              <strong className={styles.answerBold}>
+                                {token}
+                              </strong>
                             </React.Fragment>
                           );
                         }
                         if (isIngredient) {
-                          return <strong key={i} className={styles.answerBold}>{token}</strong>;
+                          return (
+                            <strong key={i} className={styles.answerBold}>
+                              {token}
+                            </strong>
+                          );
                         }
                         return token;
                       });
@@ -297,32 +336,53 @@ function AiJangbo() {
                   </p>
                 )}
 
+
+
                 <div className={styles.condQ}>어떤 조건에 맞게 식재료를 추천해 드릴까요?</div>
+
                 <div className={styles.pills}>
                   <button
-                    className={`${styles.pill} ${filter === FILTERS.CHEAPEST ? styles.pillActive : ""}`}
+                    className={`${styles.pill} ${
+                      filter === FILTERS.CHEAPEST ? styles.pillActive : ""
+                    }`}
                     onClick={() => !busy && refetchWithFilter(FILTERS.CHEAPEST)}
                     disabled={busy}
-                  >가격이 가장 저렴한 식재료</button>
+                  >
+                    가격이 가장 저렴한 식재료
+                  </button>
                   <button
-                    className={`${styles.pill} ${filter === FILTERS.LONGEST_EXPIRY ? styles.pillActive : ""}`}
-                    onClick={() => !busy && refetchWithFilter(FILTERS.LONGEST_EXPIRY)}
+                    className={`${styles.pill} ${
+                      filter === FILTERS.LONGEST_EXPIRY ? styles.pillActive : ""
+                    }`}
+                    onClick={() =>
+                      !busy && refetchWithFilter(FILTERS.LONGEST_EXPIRY)
+                    }
                     disabled={busy}
-                  >유통기한이 가장 많이 남은 식재료</button>
+                  >
+                    유통기한이 가장 많이 남은 식재료
+                  </button>
                   <button
-                    className={`${styles.pill} ${filter === FILTERS.MAX_ONE ? styles.pillActive : ""}`}
+                    className={`${styles.pill} ${
+                      filter === FILTERS.MAX_ONE ? styles.pillActive : ""
+                    }`}
                     onClick={() => !busy && refetchWithFilter(FILTERS.MAX_ONE)}
                     disabled={busy}
-                  >최대한 상점 한 곳에서만 구매할 수 있는 식재료</button>
+                  >
+                    최대한 상점 한 곳에서만 구매할 수 있는 식재료
+                  </button>
                 </div>
 
                 {(phase === "loadingRecommend" || phase === "done") && (
                   <div className={styles.selectedEchoRow}>
-                    <div className={styles.selectedEchoPill}>{filterLabel[filter]}</div>
+                    <div className={styles.selectedEchoPill}>
+                      {filterLabel[filter]}
+                    </div>
                   </div>
                 )}
                 {(phase === "loadingRecommend" || phase === "done") && (
-                  <p className={styles.findingText}>{loadingTextByFilter[filter]}</p>
+                  <p className={styles.findingText}>
+                    {loadingTextByFilter[filter]}
+                  </p>
                 )}
 
                 {phase === "done" && (
@@ -331,22 +391,33 @@ function AiJangbo() {
                     <p className={styles.recoDesc}>
                       {`공릉 도깨비시장에서 ${filterLabel[filter]}들로만 가져왔어요.`}
                     </p>
-                    <p className={styles.recoDesc2}>AI 장보의 추천이 마음에 든다면, 식재료를 장바구니에 담아보세요 !</p>
+                    <p className={styles.recoDesc2}>
+                      AI 장보의 추천이 마음에 든다면, 식재료를 장바구니에
+                      담아보세요 !
+                    </p>
 
                     <div className={styles.list}>
                       {result?.picks?.map(({ ingredient, product }) => (
+
+
                         <div key={`${ingredient}-${product.id}`} className={styles.item}>
+
                           <div className={styles.left}>
                             <div className={styles.thumb}>
                               {product.imageUrl ? (
-                                <img src={product.imageUrl} alt={product.name} />
+                                <img
+                                  src={product.imageUrl}
+                                  alt={product.name}
+                                />
                               ) : (
                                 <div className={styles.noimg}></div>
                               )}
                             </div>
                             <div className={styles.meta}>
                               <div className={styles.name}>{product.name}</div>
-                              <div className={styles.subStore}>{product.storeName}</div>
+                              <div className={styles.subStore}>
+                                {product.storeName}
+                              </div>
                               <div className={styles.subPrice}>
                                 {product.price?.toLocaleString()}원
                               </div>
@@ -355,17 +426,37 @@ function AiJangbo() {
 
                           <div className={styles.rightRow}>
                             <div className={styles.stepper}>
-                              <button onClick={() => !busy && dec(product.id)} disabled={busy}>
-                                <img src={Minus} alt="-" width={12} height={12} />
+                              <button
+                                onClick={() => !busy && dec(product.id)}
+                                disabled={busy}
+                              >
+                                <img
+                                  src={Minus}
+                                  alt="-"
+                                  width={12}
+                                  height={12}
+                                />
                               </button>
                               <span>{qtyMap[product.id] || 1}</span>
-                              <button onClick={() => !busy && inc(product.id)} disabled={busy}>
-                                <img src={Plus} alt="+" width={12} height={12} />
+                              <button
+                                onClick={() => !busy && inc(product.id)}
+                                disabled={busy}
+                              >
+                                <img
+                                  src={Plus}
+                                  alt="+"
+                                  width={12}
+                                  height={12}
+                                />
                               </button>
                             </div>
                             <div>
                               <button
-                                className={`${styles.addBtn} ${addedMap[product.id] ? styles.addBtnActive : ""}`}
+                                className={`${styles.addBtn} ${
+                                  addedMap[product.id]
+                                    ? styles.addBtnActive
+                                    : ""
+                                }`}
                                 onClick={() => addOne(product.id)}
                                 disabled={busy}
                                 aria-label="장바구니 담기"
@@ -387,7 +478,9 @@ function AiJangbo() {
                       <div className={`${styles.pills} ${styles.ctaPills}`}>
                         <button
                           type="button"
+
                           className={`${styles.pill} ${ctaSelected === CTA.ALL ? styles.pillActive : ""}`}
+
                           onClick={onClickAddAll}
                           disabled={busy}
                         >
@@ -396,6 +489,7 @@ function AiJangbo() {
 
                         <button
                           type="button"
+<
                           className={`${styles.pill} ${ctaSelected === CTA.MORE ? styles.pillActive : ""}`}
                           onClick={onClickSeeMore}
                           disabled={busy}
@@ -408,11 +502,15 @@ function AiJangbo() {
                     {/* CTA Echo & 진행문구 */}
                     {ctaSelected && (
                       <div className={styles.selectedEchoRow}>
-                        <div className={styles.selectedEchoPill}>{ctaLabel[ctaSelected]}</div>
+                        <div className={styles.selectedEchoPill}>
+                          {ctaLabel[ctaSelected]}
+                        </div>
                       </div>
                     )}
                     {ctaSelected && (
-                      <p className={styles.findingText}>{ctaLoadingText[ctaSelected]}</p>
+                      <p className={styles.findingText}>
+                        {ctaLoadingText[ctaSelected]}
+                      </p>
                     )}
 
 
@@ -456,6 +554,7 @@ function AiJangbo() {
     </div>
   </div>
 )}
+
                   </>
                 )}
               </>

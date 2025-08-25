@@ -10,11 +10,10 @@ import productFocus from "../assets/productFocus.svg";
 function MerchantMenuBar({ defaultActive = null }) {
   const navigate = useNavigate();
   const location = useLocation();
-  const {storeId}=useParams(); //URL에서 storeId 꺼내오기
+  const { storeId } = useParams(); //URL에서 storeId 꺼내오기
   // const [active, setActive] = useState(defaultActive);
 
-  const active =
-  location.pathname.startsWith("/merchant/editstore")
+  const active = location.pathname.startsWith("/merchant/editstore")
     ? "edit"
     : location.pathname.startsWith("/merchant/mystore") ||
       location.pathname.startsWith("/merchant/editproduct")
@@ -48,10 +47,14 @@ function MerchantMenuBar({ defaultActive = null }) {
       display: "block",
       marginBottom: 6,
     },
+    span: {
+      margin: 0,
+    },
     label: (isActive) => ({
       fontSize: 12,
       color: isActive ? "green" : "black",
       fontWeight: isActive ? "600" : "400",
+      margin: 0,
     }),
   };
 

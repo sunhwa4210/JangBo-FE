@@ -1,4 +1,5 @@
 import api from "./api";
+-
 
 /** 1차: 자연어 질문 → 재료 리스트 */
 export function analyzeQuestion(question) {

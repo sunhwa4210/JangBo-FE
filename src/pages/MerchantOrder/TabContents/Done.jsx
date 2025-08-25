@@ -7,7 +7,7 @@ export default function Done() {
     <>
       <div className={styles.listbox}>
         <div className={styles.title}>
-          <div>슈담이</div>
+          <div>홍길동</div>
           <div>21,800원</div>
         </div>
         <div className={styles.time}>2025-08-10 13:11:59</div>
