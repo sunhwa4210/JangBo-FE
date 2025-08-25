@@ -4,9 +4,9 @@ import styles from "./StorePage.module.css";
 import ProductList from "./components/ProductList.jsx";
 import BottomSheetProduct from "./components/BottomSheetProduct.jsx";
 import BottomSheetStore from "./components/BottomSheetStore.jsx";
-import { getProducts, getStore } from "../../api/api.js";
+import { getProducts, getStore, addCartItem } from "../../api/api.js";
 import Header from "../../components/Header.jsx";
-import { addCartItem } from "../../api/api.js";
+import MenuBar from "../../components/MenuBar.jsx";
 
 const isValidStoreId = (id) =>
   typeof id === "string" &&
@@ -26,9 +26,9 @@ export default function StorePage() {
   const [isStoreOpen, setIsStoreOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
 
-  // 상점+상품 데이터 불러오기 (유효 id만)
+  // 상점 + 상품 데이터 불러오기 (유효 id만)
   useEffect(() => {
-    // ❗ 유효하지 않으면 즉시 메인으로 이동(서버에 /stores/null 요청 자체를 만들지 않음)
+    // 유효하지 않으면 즉시 메인으로 이동(서버에 /stores/null 요청 방지)
     if (!isValidStoreId(storeId)) {
       navigate("/main", { replace: true });
       return;
@@ -36,14 +36,20 @@ export default function StorePage() {
 
     const fetchProducts = async () => {
       try {
+        // 상점 데이터
         const storeRes = await getStore(storeId);
         setStore(storeRes);
 
+        // store 데이터 안의 merchantId 추출
         const merchantId = storeRes?.merchantId;
-        if (!merchantId) return;
+        if (!merchantId) {
+          setProducts([]);
+          return;
+        }
 
+        // 상품 데이터
         const productRes = await getProducts(merchantId, sort);
-        setProducts(productRes);
+        setProducts(Array.isArray(productRes) ? productRes : []);
       } catch (err) {
         console.error("[StorePage] fetch error:", err);
       }
@@ -62,12 +68,13 @@ export default function StorePage() {
   };
 
   // 장바구니 추가
-  const handleAddCart = async (product) => {
+  const handleAddCart = async (product, quantity = 1) => {
     try {
-      const res = await addCartItem(product.id, 1);
-      alert(res.message);
+      const res = await addCartItem(product.id, quantity);
+      alert(res?.message ?? "장바구니에 담았습니다.");
+      console.log(res);
     } catch (err) {
-      const status = err.response?.status;
+      const status = err?.response?.status;
       if (status === 400) alert("잘못된 요청입니다.");
       else if (status === 401) alert("로그인이 필요합니다.");
       else if (status === 404) alert("상품 또는 상점을 찾을 수 없습니다.");
@@ -128,6 +135,8 @@ export default function StorePage() {
         onClose={() => setIsStoreOpen(false)}
         store={store}
       />
+
+      <MenuBar />
     </>
   );
 }

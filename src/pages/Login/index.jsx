@@ -9,7 +9,7 @@ import Input from "../../components/InputField";
 import EmailIcon from "../../assets/mail.svg";
 import LockIcon from "../../assets/lock.svg";
 import CustomButton from "../../components/CustomButton";
-import { login } from "../../api/auth"; 
+import { login, loginMerchant } from "../../api/auth";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -49,17 +49,37 @@ export default function Login() {
 
     setLoading(true);
     setErrMsg("");
-
     try {
-      await login({ email, password });
-      navigate("/main", { replace: true });
-    } catch (err) {
-      const m = (err?.serverMsg || err?.message || "").toLowerCase();
-      let ui = "로그인에 실패했습니다.";
-      if (m.includes("authentication_failed") || m.includes("이메일 또는 비밀번호")) {
-        ui = "이메일 또는 비밀번호가 올바르지 않습니다.";
+      // 상인 로그인 시도
+      const merchantRes = await loginMerchant({ email, password });
+      console.log("상인 로그인 응답:", merchantRes);
+
+      if (merchantRes?.storeId) {
+        // 상인이면 storeId 꺼내서 상점 메인으로 이동
+        navigate(`/merchant/mystore/${merchantRes.storeId}`, {
+          replace: true,
+        });
       }
-      setErrMsg(ui);
+    } catch (err) {
+      try {
+        // 고객 로그인 시도
+        const customerRes = await login({ email, password });
+        console.log("고객 로그인 응답:", customerRes);
+
+        if (customerRes?.authenticated) {
+          navigate("/main", { replace: true });
+        }
+      } catch (err) {
+        const m = (err?.serverMsg || err?.message || "").toLowerCase();
+        let ui = "로그인에 실패했습니다.";
+        if (
+          m.includes("authentication_failed") ||
+          m.includes("이메일 또는 비밀번호")
+        ) {
+          ui = "이메일 또는 비밀번호가 올바르지 않습니다.";
+        }
+        setErrMsg(ui);
+      }
     } finally {
       setLoading(false);
     }

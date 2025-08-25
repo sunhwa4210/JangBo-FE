@@ -5,9 +5,7 @@ const isLocalhost =
 const isDev = process.env.NODE_ENV !== "production";
 
 const API_BASE =
-  isLocalhost || isDev
-    ? ""
-    : process.env.REACT_APP_API_BASE_URL || "";
+  isLocalhost || isDev ? "" : process.env.REACT_APP_API_BASE_URL || "";
 
 // 경로 조립 헬퍼
 const apiUrl = (path) => `${API_BASE}${path}`;
@@ -40,7 +38,7 @@ async function requestWithDebug(url, options) {
   return data;
 }
 
-
+/* 로그인 */
 export async function login({ email, password }) {
   const payloadEmail = (email ?? "").trim().toLowerCase(); // 이메일만 정규화
   const payloadPassword = password ?? ""; // 비번은 원본 그대로
@@ -53,7 +51,7 @@ export async function login({ email, password }) {
   });
 }
 
-/** 로그아웃 */
+/* 로그아웃 */
 export async function logout() {
   return requestWithDebug(apiUrl("/api/customers/logout"), {
     method: "POST",
@@ -61,9 +59,41 @@ export async function logout() {
   });
 }
 
-/**세션 확인/내 정보 */
+/*세션 확인/내 정보 */
 export async function getMe() {
   return requestWithDebug(apiUrl("/api/customers/me"), {
+    method: "GET",
+    headers: { Accept: "application/json" },
+    credentials: "include",
+    cache: "no-store",
+  });
+}
+
+//=========상인========//
+/* 로그인 */
+export async function loginMerchant({ email, password }) {
+  const payloadEmail = (email ?? "").trim().toLowerCase(); // 이메일만 정규화
+  const payloadPassword = password ?? ""; // 비번은 원본 그대로
+
+  return requestWithDebug(apiUrl("/api/merchants/login"), {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Accept: "application/json" },
+    credentials: "include",
+    body: JSON.stringify({ email: payloadEmail, password: payloadPassword }),
+  });
+}
+
+/* 로그아웃 */
+export async function logoutMerchant() {
+  return requestWithDebug(apiUrl("/api/merchants/logout"), {
+    method: "POST",
+    credentials: "include",
+  });
+}
+
+/*세션 확인/내 정보 */
+export async function getMeMerchant() {
+  return requestWithDebug(apiUrl("/api/merchants/me"), {
     method: "GET",
     headers: { Accept: "application/json" },
     credentials: "include",

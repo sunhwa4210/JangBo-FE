@@ -6,43 +6,49 @@ import BottomSheetStore from "./components/BottomSheetStore.jsx";
 import Header from "../../components/Header.jsx";
 import MerchantMenuBar from "../../components/MerchantMenuBar.jsx";
 import axios from "axios";
+import http from "../../api/http.js";
+import MyPageIcon from "../../assets/btnMypage.svg";
+import { getProducts, getStore } from "../../api/api.js";
 
 export default function MyStore() {
-  const api = axios.create({
-    baseURL: process.env.REACT_APP_API_BASE_URL,
-    timeout: 5000,
-    withCredentials: true,
-  });
+  // const api = axios.create({
+  //   baseURL: process.env.REACT_APP_API_BASE_URL,
+  //   timeout: 5000,
+  //   withCredentials: true,
+  // });
 
-  // 상품 API
-  const getProducts = async (sort) => {
-    const res = await api.get("/api/merchants/products", {
-      params: { sort },
-    });
-    return res.data;
-  };
-
-  const { storeId } = useParams(); //URL에서 상점 ID 추출
+  const { storeId } = useParams(); //URL에서 storeId 꺼내기
   const [sort, setSort] = useState("recent"); //기본값 최신순
   const [products, setProducts] = useState([]);
   const [store, setStore] = useState(null);
   const [isStoreOpen, setIsStoreOpen] = useState(false);
   const navigate = useNavigate();
+  console.log("MyStore useParams storeId:", storeId);
 
-  //상품 데이터 불러오기
+  //상점+상품 데이터 불러오기
   useEffect(() => {
     const fetchProducts = async () => {
       try {
+        //상점 데이터
+        const storeRes = await getStore(storeId);
+        setStore(storeRes);
+
+        //store데이터 안의 merchantId 추출
+        const merchantId = storeRes.merchantId;
+        console.log("merchantId:", merchantId);
+
         //상품 데이터
-        const productRes = await getProducts(sort);
+        const productRes = await getProducts(merchantId, sort);
         setProducts(productRes);
       } catch (err) {
         console.error(err);
       }
     };
-
-    fetchProducts();
-  }, [sort]);
+    //storeId 있을때만 api 호출하도록
+    if (storeId) {
+      fetchProducts();
+    }
+  }, [storeId, sort]);
 
   //상점명(헤더) 클릭 시
   const handleStoreClick = () => {
@@ -52,7 +58,8 @@ export default function MyStore() {
   //상품 삭제
   const handleDeleteProduct = async (productId) => {
     try {
-      await api.delete(`/api/merchants/products/${productId}`);
+      //http로 수정
+      await http.delete(`/api/merchants/products/${productId}`);
       // 성공하면 로컬 상태에서 상품 제거
       setProducts((prev) => prev.filter((p) => p.id !== productId));
       alert("상품이 삭제되었습니다.");
@@ -77,8 +84,16 @@ export default function MyStore() {
   return (
     <>
       <Header
-        label={store?.storeName}
+        label="내 상점"
         onTitleClick={handleStoreClick}
+        leftButton={
+          <img
+            src={MyPageIcon}
+            alt="마이페이지"
+            style={{ cursor: "pointer" }}
+            onClick={() => navigate("/merchant/mypage")}
+          />
+        }
         button={
           <button
             style={{
@@ -123,8 +138,8 @@ export default function MyStore() {
         </div>
       </div>
 
-      {/* 상품 목록 컴포넌트에 product데이터&클릭이벤트 전달 */}
-      <ProductList products={products} onDelete={handleDeleteProduct} />
+      {/* 상품 목록 컴포넌트에 product데이터 & 클릭이벤트 전달 */}
+      <ProductList products={products} handleDelete={handleDeleteProduct} />
 
       {/* 상점 바텀시트 */}
       <BottomSheetStore
