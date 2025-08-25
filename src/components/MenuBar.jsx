@@ -23,6 +23,7 @@ function ManuBar() {
       gap: 40,
       padding: "10px 80px",
       zIndex: 100,
+      backgroundColor: "white",
     },
     item: {
       display: "flex",

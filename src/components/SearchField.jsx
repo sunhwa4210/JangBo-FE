@@ -3,10 +3,10 @@ import React from "react";
 import { color } from "../styles/color";
 import SearchBtn from "../assets/searchBtn.svg";
 
-function SearchField({ label, value, onChange, onSubmit }) {
+function SearchField({ label, value, onChange, onSubmit, disabled = false }) {
   const styles = {
     container: { display: "flex", alignItems: "center", justifyContent: "center", gap: 6 },
-    form: { display: "flex", alignItems: "center", gap: 6 },
+    form: { display: "flex", alignItems: "center", gap: 6, width: "100%" },
     searchInput: {
       width: 247, height: 22, borderRadius: 30,
       backgroundColor: color.Green[5], border: "none", padding: "14px 18px", outline: "none",
@@ -17,7 +17,11 @@ function SearchField({ label, value, onChange, onSubmit }) {
     },
   };
 
-  const handleSubmit = (e) => { e.preventDefault(); onSubmit?.(); };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (disabled) return;
+    onSubmit?.();
+  };
 
   return (
     <div style={styles.container}>
@@ -26,9 +30,10 @@ function SearchField({ label, value, onChange, onSubmit }) {
           style={styles.searchInput}
           placeholder={label}
           value={value}
-          onChange={(e) => onChange?.(e.target.value)}
+          onChange={(e) => !disabled && onChange?.(e.target.value)}
+          disabled={disabled}
         />
-        <button type="submit" style={styles.button} aria-label="검색">
+        <button type="submit" style={styles.button} aria-label="검색" disabled={disabled}>
           <img src={SearchBtn} alt="검색" />
         </button>
       </form>

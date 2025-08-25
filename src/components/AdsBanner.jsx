@@ -1,5 +1,5 @@
 import React from "react";
-
+import Ad from "../assets/ad.svg"
 function AdsBanner(){
     return(
         <div
@@ -8,7 +8,7 @@ function AdsBanner(){
             height: "78px",
             backgroundColor: "hsla(0, 0%, 65%, 1)"
         }}>
-
+            <img src={Ad} alt="광고"/>
         </div>
     )
 }
