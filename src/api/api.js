@@ -2,12 +2,12 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "/api",            // dev 프록시/배포 리버스프록시 가정
-  withCredentials: true,      // 세션 쿠키 전송
+  baseURL: "/api",
+  withCredentials: true,
   timeout: 8000,
 });
 
-// ========== Products / Store (기존) ==========
+// ========== Products / Store ==========
 export const getProducts = (merchantId, sort = "recent") =>
   api.get(`/products/merchants/${merchantId}`, { params: { sort } }).then(r => r.data);
 
@@ -17,35 +17,28 @@ export const getStore = (storeId) =>
 export const addCartItem = (productId, quantity = 1) =>
   api.post(`/carts/items`, { productId, quantity }).then(r => r.data);
 
-// ========== Cart (신규) ==========
-// 장바구니 전체 조회
+// ========== Cart ==========
 export const fetchCart = () =>
-  api.get(`/carts`).then(r => r.data);  // {items, selectedItemCount, ...}
+  api.get(`/carts`).then(r => r.data);
 
-// 선택 항목 요약(합계/수수료/총액)
 export const fetchCartSummary = (selectedItemIds) =>
   api.post(`/carts/selection/summary`, { selectedItemIds }).then(r => r.data);
 
-// 수량 '절대값'으로 변경
 export const setCartItemQuantity = (itemId, quantity) =>
   api.post(`/carts/items/${itemId}`, { itemId, quantity }).then(r => r.data);
 
-// 증감
 export const increaseCartItem = (itemId) =>
   api.patch(`/carts/items/${itemId}/increase`).then(r => r.data);
 
 export const decreaseCartItem = (itemId) =>
   api.patch(`/carts/items/${itemId}/decrease`).then(r => r.data);
 
-// 개별 삭제
 export const deleteCartItem = (itemId) =>
   api.delete(`/carts/items/${itemId}`).then(r => r.data);
 
-// 선택 삭제
 export const deleteSelectedCartItems = (itemIds) =>
   api.delete(`/carts/items`, { data: { itemIds } }).then(r => r.data);
 
-// 전체 비우기
 export const clearCart = () =>
   api.delete(`/carts`).then(r => r.data);
 

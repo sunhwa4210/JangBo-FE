@@ -11,6 +11,7 @@ import Minus from "../../assets/minus.svg";
 import Plus from "../../assets/plus.svg";
 import Cart from "../../assets/cart.svg";
 import CartFocus from "../../assets/cart_focus.svg";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const FILTERS = {
   CHEAPEST: "CHEAPEST",
@@ -23,6 +24,7 @@ const loadingTextByFilter = {
   [FILTERS.LONGEST_EXPIRY]: "유통기한이 넉넉한 상품 위주로 찾는 중…",
   [FILTERS.MAX_ONE]: "가능한 한 곳에서 모두 살 수 있도록 찾는 중…",
 };
+
 const CTA = { ALL: "ALL", MORE: "MORE" };
 const ctaLabel = {
   [CTA.ALL]: "모두 장바구니에 담을래요",
@@ -34,15 +36,18 @@ const ctaLoadingText = {
 };
 
 function AiJangbo() {
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const [phase, setPhase] = useState("idle"); // idle | loadingAnalyze | awaitFilter | loadingRecommend | done | error
   const [question, setQuestion] = useState("");
-  const [answer, setAnswer] = useState("");   // 1차 답변 문장
+  const [answer, setAnswer] = useState("");
   const [ingredients, setIngredients] = useState([]);
   const [filter, setFilter] = useState("");
   const [result, setResult] = useState(null);
   const [err, setErr] = useState("");
 
-  // 입력/요청 제어
+  const [navigating, setNavigating] = useState("");   // "main" | "cart" | "restart" | ""
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
   const reqTokenRef = useRef(0);
@@ -51,12 +56,11 @@ function AiJangbo() {
   const [qtyMap, setQtyMap] = useState({});
   const [bulkDone, setBulkDone] = useState(false);
 
-  // 각 상품의 '담김' 상태 (아이콘 전환)
-  const [addedMap, setAddedMap] = useState({}); // { [productId]: true }
-
+  // 각 상품의 '담김' 상태
+  const [addedMap, setAddedMap] = useState({});
   const [ctaSelected, setCtaSelected] = useState(null); // 'ALL' | 'MORE' | null
 
-  // 1차: 질문 분석만 수행 → awaitFilter 로 멈춤
+  // 1차: 질문 분석
   const ask = async () => {
     const q = input.trim();
     if (!q || busy) return;
@@ -74,7 +78,7 @@ function AiJangbo() {
     setBulkDone(false);
     setQtyMap({});
     setAddedMap({});
-    setCtaSelected(null); // ✅ CTA 선택 초기화
+    setCtaSelected(null);
 
     try {
       setPhase("loadingAnalyze");
@@ -84,7 +88,6 @@ function AiJangbo() {
       const ings = (a?.ingredients || []).map((s) => s.trim()).filter(Boolean);
       setAnswer(a?.answer || "");
       setIngredients(ings);
-
       setPhase("awaitFilter");
     } catch (e) {
       console.error("[analyzeQuestion] error:", e);
@@ -95,7 +98,7 @@ function AiJangbo() {
     }
   };
 
-  // 2차: 사용자가 필터를 선택했을 때만 추천 호출
+  // 2차: 필터 선택 시 추천 호출
   const refetchWithFilter = async (nextFilter) => {
     setFilter(nextFilter);
     if (!ingredients.length || busy) return;
@@ -121,30 +124,36 @@ function AiJangbo() {
     }
   };
 
-  // 수량/담기
+  // 수량 증감
   const inc = (id) => setQtyMap((m) => ({ ...m, [id]: (m[id] || 1) + 1 }));
   const dec = (id) => setQtyMap((m) => ({ ...m, [id]: Math.max(1, (m[id] || 1) - 1) }));
 
-  // 개별 담기 (낙관적 UI → 실패 시 롤백)
+  // 개별 담기
   const addOne = async (productId) => {
     if (busy) return;
-    setAddedMap((m) => ({ ...m, [productId]: true })); // 클릭 즉시 On
+    setAddedMap((m) => ({ ...m, [productId]: true })); // 낙관적 UI
     try {
       setBusy(true);
       await bulkAddToCart([{ productId, quantity: qtyMap[productId] || 1 }]);
     } catch (e) {
       console.error("[bulkAddToCart one] error:", e);
+      if (e?.status === 401) {
+        setAddedMap((m) => {
+          const next = { ...m }; delete next[productId]; return next;
+        });
+        navigate("/login", { replace: true, state: { redirectTo: location.pathname } });
+        return;
+      }
       setAddedMap((m) => {
-        const next = { ...m };
-        delete next[productId];
-        return next;
+        const next = { ...m }; delete next[productId]; return next;
       });
-      alert(e?.status === 401 ? "로그인이 필요합니다." : (e?.serverMsg || "담기에 실패했어요."));
+      alert(e?.serverMsg || "담기에 실패했어요.");
     } finally {
       setBusy(false);
     }
   };
 
+  // 전체 담기
   const addAllToCart = async () => {
     if (!result?.picks?.length || busy) return;
     const items = result.picks.map(({ product }) => ({
@@ -162,13 +171,17 @@ function AiJangbo() {
       });
     } catch (e) {
       console.error("[bulkAddToCart all] error:", e);
-      alert(e?.status === 401 ? "로그인이 필요합니다." : (e?.serverMsg || "담기에 실패했어요."));
+      if (e?.status === 401) {
+        navigate("/login", { replace: true, state: { redirectTo: location.pathname } });
+        return;
+      }
+      alert(e?.serverMsg || "담기에 실패했어요.");
     } finally {
       setBusy(false);
     }
   };
 
-  // CTA 클릭 래퍼 (활성 표시 + Echo/문구 노출)
+  // CTA 클릭
   const onClickAddAll = async () => {
     if (busy) return;
     setCtaSelected(CTA.ALL);
@@ -180,6 +193,33 @@ function AiJangbo() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  // 완료 패널 3버튼 핸들러
+  const handleGoMain = () => {
+    setNavigating("main");
+    navigate("/main");
+  };
+  const handleGoCart = () => {
+    setNavigating("cart");
+    navigate("/cart");
+  };
+  const handleRestart = () => {
+    setNavigating("restart");
+    // 1차 자연어 단계로 리셋
+    setPhase("idle");
+    setQuestion("");
+    setAnswer("");
+    setIngredients([]);
+    setFilter("");
+    setResult(null);
+    setErr("");
+    setInput("");
+    setQtyMap({});
+    setAddedMap({});
+    setCtaSelected(null);
+    setBulkDone(false);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   const filterLabel = {
     [FILTERS.CHEAPEST]: "가격이 가장 저렴한 식재료",
     [FILTERS.LONGEST_EXPIRY]: "유통기한이 가장 많이 남은 식재료",
@@ -188,11 +228,9 @@ function AiJangbo() {
 
   return (
     <div className={styles.container}>
-      {/* 상단 로고 영역 */}
       <div><LogoHeader /></div>
 
       <div className={styles.chatSection}>
-        {/* 질문 타이틀 or 초기 안내 */}
         {(phase === "awaitFilter" || phase === "loadingRecommend" || phase === "done" || phase === "error") ? (
           <div className={styles.qSection}>
             <div className={styles.qTitle}>{question}</div>
@@ -212,7 +250,6 @@ function AiJangbo() {
           </div>
         )}
 
-        {/* 1차 분석 로딩만 스피너로 표시 */}
         {phase === "loadingAnalyze" && (
           <div className={styles.loading2}>
             <div className={styles.pulse} />
@@ -220,20 +257,17 @@ function AiJangbo() {
           </div>
         )}
 
-        {/* resultCard는 loadingRecommend 단계도 포함해서 렌더 */}
         {(phase === "awaitFilter" || phase === "loadingRecommend" || phase === "done" || phase === "error") && (
           <div className={styles.resultCard}>
             {err ? (
               <div className={styles.error}>{err}</div>
             ) : (
               <>
-                {/* AI 답변 헤더 */}
                 <div className={styles.aiHeader}>
                   <img className={styles.ailogo} src={Jangbo} alt="" width={30} height={30} />
                   <span className={styles.aiText}>AI 장보의 답변</span>
                 </div>
 
-                {/* 1차 답변 문장 (재료는 Bold, 첫 재료 앞에 줄바꿈) */}
                 {!!answer && (
                   <p className={styles.answer}>
                     {(() => {
@@ -263,7 +297,6 @@ function AiJangbo() {
                   </p>
                 )}
 
-                {/* 조건 선택 안내 + Pill */}
                 <div className={styles.condQ}>어떤 조건에 맞게 식재료를 추천해 드릴까요?</div>
                 <div className={styles.pills}>
                   <button
@@ -283,7 +316,6 @@ function AiJangbo() {
                   >최대한 상점 한 곳에서만 구매할 수 있는 식재료</button>
                 </div>
 
-                {/* 2차 조회 중/완료: Echo pill + 로딩 문구 유지 */}
                 {(phase === "loadingRecommend" || phase === "done") && (
                   <div className={styles.selectedEchoRow}>
                     <div className={styles.selectedEchoPill}>{filterLabel[filter]}</div>
@@ -293,7 +325,6 @@ function AiJangbo() {
                   <p className={styles.findingText}>{loadingTextByFilter[filter]}</p>
                 )}
 
-                {/* 2차 결과 영역 */}
                 {phase === "done" && (
                   <>
                     <div className={styles.sectionTitle}>추천 결과</div>
@@ -302,11 +333,9 @@ function AiJangbo() {
                     </p>
                     <p className={styles.recoDesc2}>AI 장보의 추천이 마음에 든다면, 식재료를 장바구니에 담아보세요 !</p>
 
-                    {/* 추천 리스트 */}
                     <div className={styles.list}>
                       {result?.picks?.map(({ ingredient, product }) => (
                         <div key={`${ingredient}-${product.id}`} className={styles.item}>
-                          {/* 좌측: 썸네일 + 정보 */}
                           <div className={styles.left}>
                             <div className={styles.thumb}>
                               {product.imageUrl ? (
@@ -324,7 +353,6 @@ function AiJangbo() {
                             </div>
                           </div>
 
-                          {/* 우측: 스테퍼 + 담기 버튼 */}
                           <div className={styles.rightRow}>
                             <div className={styles.stepper}>
                               <button onClick={() => !busy && dec(product.id)} disabled={busy}>
@@ -355,29 +383,29 @@ function AiJangbo() {
                       ))}
                     </div>
 
-                    {/*  하단 CTA: 클릭한 것만 활성 + 우측 Echo/문구 */}
                     <div className={styles.ctaRow}>
-                    <div className={`${styles.pills} ${styles.ctaPills}`}>
-                      <button
-                        type="button"
-                        className={`${styles.pill} ${ctaSelected === CTA.ALL ? styles.pillActive : ""}`}
-                        onClick={onClickAddAll}
-                        disabled={busy}
-                      >
-                        {ctaLabel[CTA.ALL]}
-                      </button>
+                      <div className={`${styles.pills} ${styles.ctaPills}`}>
+                        <button
+                          type="button"
+                          className={`${styles.pill} ${ctaSelected === CTA.ALL ? styles.pillActive : ""}`}
+                          onClick={onClickAddAll}
+                          disabled={busy}
+                        >
+                          {ctaLabel[CTA.ALL]}
+                        </button>
 
-                      <button
-                        type="button"
-                        className={`${styles.pill} ${ctaSelected === CTA.MORE ? styles.pillActive : ""}`}
-                        onClick={onClickSeeMore}
-                        disabled={busy}
-                      >
-                        {ctaLabel[CTA.MORE]}
-                      </button>
+                        <button
+                          type="button"
+                          className={`${styles.pill} ${ctaSelected === CTA.MORE ? styles.pillActive : ""}`}
+                          onClick={onClickSeeMore}
+                          disabled={busy}
+                        >
+                          {ctaLabel[CTA.MORE]}
+                        </button>
+                      </div>
                     </div>
-                    </div>
-                    {/* CTA Echo & 진행문구  */}
+
+                    {/* CTA Echo & 진행문구 */}
                     {ctaSelected && (
                       <div className={styles.selectedEchoRow}>
                         <div className={styles.selectedEchoPill}>{ctaLabel[ctaSelected]}</div>
@@ -387,15 +415,47 @@ function AiJangbo() {
                       <p className={styles.findingText}>{ctaLoadingText[ctaSelected]}</p>
                     )}
 
-                    {bulkDone && (
-                      <div className={styles.doneBox}>
-                        <div className={styles.doneTitle}>AI 장보의 추천 목록을 모두 장바구니에 담았어요!</div>
-                        <div className={styles.doneBtns}>
-                          <button className={styles.secondary}>다른 식재료도 볼래요</button>
-                          <button className={styles.primary}>바로 결제하고 빠른 주문할래요</button>
-                        </div>
-                      </div>
-                    )}
+
+
+{bulkDone && (
+  <div className={styles.doneWrap} role="dialog" aria-label="장바구니 담기 완료">
+    <div className={styles.doneBox}>
+      <div className={styles.doneTitle}>AI 장보의 추천 목록을 모두 장바구니에 담았어요!</div>
+
+      <div className={styles.doneBtns}>
+        <button
+          className={styles.secondary}
+          onClick={handleGoMain}
+          disabled={!!navigating}
+        >
+          다른 식재료들도 볼래요
+        </button>
+
+        <button
+          className={styles.primary}
+          onClick={handleGoCart}
+          disabled={!!navigating}
+        >
+          바로 결제하고 픽업 주문할래요
+        </button>
+
+        <button
+          className={styles.secondary}
+          onClick={handleRestart}
+          disabled={!!navigating}
+        >
+          다른 식재료나 메뉴에 대한 추천을 받아볼래요
+        </button>
+      </div>
+
+      {navigating === "cart" && (
+        <p className={styles.movingText} aria-live="polite">
+          결제 화면으로 이동 중…
+        </p>
+      )}
+    </div>
+  </div>
+)}
                   </>
                 )}
               </>
@@ -404,7 +464,6 @@ function AiJangbo() {
         )}
       </div>
 
-      {/* 하단 검색창 */}
       <div className={styles.search}>
         <SearchField
           label="필요한 식재료나 메뉴를 물어보세요"
@@ -415,7 +474,6 @@ function AiJangbo() {
         />
       </div>
 
-      {/* 하단 메뉴바 */}
       <ManuBar />
     </div>
   );

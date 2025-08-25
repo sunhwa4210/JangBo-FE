@@ -1,6 +1,5 @@
-// src/App.jsx (또는 App.js)
 import React from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate, useParams } from "react-router-dom";
 import "./App.css";
 
 import Splash from "./pages/Splash/index.jsx";
@@ -17,6 +16,20 @@ import My from "./pages/My/index.jsx";
 import RegisterStore from "./pages/RegisterStore/RegisterStore.jsx";
 import MyStore from "./pages/MyStore/MyStore.jsx";
 import MerchantOrder from "./pages/MerchantOrder/MerchantOrder.jsx";
+import Pay from "./pages/Cart/Pay.jsx";
+
+// 숫자만 유효한 storeId로 허용
+const isValidStoreId = (id) =>
+  typeof id === "string" && /^[0-9]+$/.test(id);
+
+// 라우터 가드
+function StoreGuard() {
+  const { storeId } = useParams();
+  if (!isValidStoreId(storeId)) {
+    return <Navigate to="/main" replace />;
+  }
+  return <StorePage />;
+}
 
 function App() {
   return (
@@ -28,25 +41,25 @@ function App() {
         {/* 인증/온보딩 */}
         <Route path="/splash" element={<Splash />} />
         <Route path="/login" element={<Login />} />
-        {/* 회원가입 단계별 페이지 */}
 
-        <Route path="/signup" element={<SignupSelectRole />} />                 {/* 1단계: 타입 선택 */}
-        <Route path="/signup/:role" element={<SignupForm />} />                 {/* 2단계: 폼 입력 */}
-        <Route path="/signup/:role/success" element={<SignupSuccess />} />      {/* 3단계: 완료 */}
+        {/* 회원가입 단계별 페이지 */}
+        <Route path="/signup" element={<SignupSelectRole />} />
+        <Route path="/signup/:role" element={<SignupForm />} />
+        <Route path="/signup/:role/success" element={<SignupSuccess />} />
 
         {/* 메인/기타 */}
         <Route path="/main" element={<Main />} />
         <Route path="/ai" element={<AiJangbo />} />
         <Route path="/cart" element={<Cart />} />
+        <Route path="/pay" element={<Pay />} />
         <Route path="/my" element={<My />} />
 
-        {/* 스토어 */}
-        <Route path="/stores/:storeId" element={<StorePage />} />
-        {/* 상점 등록 페이지 */}
+        {/* 상점 상세 (가드 적용) */}
+        <Route path="/stores/:storeId" element={<StoreGuard />} />
+
+        {/* 상인 영역 */}
         <Route path="/merchant/registerstore" element={<RegisterStore />} />
-        {/* 상인 메인 페이지 */}
         <Route path="/merchant/mystore" element={<MyStore />} />
-        {/* 상인 주문/픽업 페이지 */}
         <Route path="/merchant/order" element={<MerchantOrder />} />
       </Routes>
     </BrowserRouter>
