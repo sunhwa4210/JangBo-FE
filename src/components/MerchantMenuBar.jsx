@@ -1,17 +1,27 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
 import edit from "../assets/edit.svg";
 import home from "../assets/merchant-home.svg";
 import product from "../assets/product.svg";
 import editFocus from "../assets/editFocus.svg";
 import homeFocus from "../assets/merchant-homeFocus.svg";
 import productFocus from "../assets/productFocus.svg";
-import { useParams } from "react-router-dom";
 
 function MerchantMenuBar({ defaultActive = null }) {
   const navigate = useNavigate();
-  const [active, setActive] = useState(defaultActive);
-  const { storeId } = useParams();
+  const location = useLocation();
+  const {storeId}=useParams(); //URL에서 storeId 꺼내오기
+  // const [active, setActive] = useState(defaultActive);
+
+  const active =
+  location.pathname.startsWith("/merchant/editstore")
+    ? "edit"
+    : location.pathname.startsWith("/merchant/mystore") ||
+      location.pathname.startsWith("/merchant/editproduct")
+    ? "home"
+    : location.pathname.startsWith("/merchant/addproduct")
+    ? "product"
+    : null;
 
   const styles = {
     bar: {
@@ -51,8 +61,8 @@ function MerchantMenuBar({ defaultActive = null }) {
       <div
         style={styles.item}
         onClick={() => {
-          setActive("edit");
-          navigate("/editstore");
+          // setActive("edit");
+          navigate(`/merchant/editstore/${storeId}`);
         }}
       >
         <img
@@ -67,8 +77,8 @@ function MerchantMenuBar({ defaultActive = null }) {
       <div
         style={styles.item}
         onClick={() => {
-          setActive("home");
-          navigate(`/store/${storeId}`);
+          // setActive("home");
+          navigate(`/merchant/mystore/${storeId}`);
         }}
       >
         <img
@@ -83,8 +93,8 @@ function MerchantMenuBar({ defaultActive = null }) {
       <div
         style={styles.item}
         onClick={() => {
-          setActive("product");
-          navigate("/addproduct");
+          // setActive("product");
+          navigate("/merchant/addproduct");
         }}
       >
         <img

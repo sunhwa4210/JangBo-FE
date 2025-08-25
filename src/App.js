@@ -1,4 +1,3 @@
-// src/App.jsx (또는 App.js)
 import React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import "./App.css";
@@ -12,11 +11,16 @@ import Main from "./pages/Main/Main.jsx";
 import AiJangbo from "./pages/AI/AiJangbo.jsx";
 import Cart from "./pages/Cart/Cart.jsx";
 import StorePage from "./pages/Store/StorePage.jsx";
-
 import My from "./pages/My/index.jsx";
-import RegisterStore from "./pages/RegisterStore/RegisterStore.jsx";
+import RegisterStore from "./pages/MerchantManage/ManageStore/RegisterStore.jsx";
 import MyStore from "./pages/MyStore/MyStore.jsx";
 import MerchantOrder from "./pages/MerchantOrder/MerchantOrder.jsx";
+import AddProduct from "./pages/MerchantManage/ManageProduct/AddProduct.jsx";
+import EditProduct from "./pages/MerchantManage/ManageProduct/EditProduct.jsx";
+import EditStore from "./pages/MerchantManage/ManageStore/EditStore.jsx";
+import MerchantMy from "./pages/My/MerchantMypage.jsx";
+// import Review from "./pages/Review/Review.jsx"; // 현재 라우트 미사용
+import PickupComplete from "./pages/Review/PickUpComplete.jsx";
 
 function App() {
   return (
@@ -28,11 +32,11 @@ function App() {
         {/* 인증/온보딩 */}
         <Route path="/splash" element={<Splash />} />
         <Route path="/login" element={<Login />} />
-        {/* 회원가입 단계별 페이지 */}
 
-        <Route path="/signup" element={<SignupSelectRole />} />                 {/* 1단계: 타입 선택 */}
-        <Route path="/signup/:role" element={<SignupForm />} />                 {/* 2단계: 폼 입력 */}
-        <Route path="/signup/:role/success" element={<SignupSuccess />} />      {/* 3단계: 완료 */}
+        {/* 회원가입 단계별 페이지 */}
+        <Route path="/signup" element={<SignupSelectRole />} />
+        <Route path="/signup/:role" element={<SignupForm />} />
+        <Route path="/signup/:role/success" element={<SignupSuccess />} />
 
         {/* 메인/기타 */}
         <Route path="/main" element={<Main />} />
@@ -40,14 +44,22 @@ function App() {
         <Route path="/cart" element={<Cart />} />
         <Route path="/my" element={<My />} />
 
-        {/* 스토어 */}
+        {/* 상점 세부 페이지(단일 표준 경로) */}
         <Route path="/stores/:storeId" element={<StorePage />} />
-        {/* 상점 등록 페이지 */}
+
+        {/* 상점 등록/수정 */}
         <Route path="/merchant/registerstore" element={<RegisterStore />} />
-        {/* 상인 메인 페이지 */}
-        <Route path="/merchant/mystore" element={<MyStore />} />
-        {/* 상인 주문/픽업 페이지 */}
+        <Route path="/merchant/editstore/:storeId" element={<EditStore />} />
+
+        {/* 상인 영역 */}
+        <Route path="/merchant/mystore/:storeId" element={<MyStore />} />
         <Route path="/merchant/order" element={<MerchantOrder />} />
+        <Route path="/merchant/addproduct" element={<AddProduct />} />
+        <Route path="/merchant/editproduct/:productId" element={<EditProduct />} />
+        <Route path="/merchant/mypage" element={<MerchantMy />} />
+
+        {/* 리뷰 */}
+        <Route path="/review" element={<PickupComplete />} />
       </Routes>
     </BrowserRouter>
   );

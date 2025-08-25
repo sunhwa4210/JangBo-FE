@@ -1,12 +1,26 @@
 import styles from "./RegisterStore.module.css";
-import Header from "../../components/Header.jsx";
-import CustomButton from "../../components/CustomButton.jsx";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import Header from "../../../components/Header.jsx";
+import CustomButton from "../../../components/CustomButton.jsx";
+import { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
-import http from "../../api/http.js";
+import http from "../../../api/http.js";
+import StoreIntro from "./StoreIntro.jsx";
 
-export default function RegisterStore() {
+export default function EditStore() {
+  const dayMapping = {
+    월: "MONDAY",
+    화: "TUESDAY",
+    수: "WEDNESDAY",
+    목: "THURSDAY",
+    금: "FRIDAY",
+    토: "SATURDAY",
+    일: "SUNDAY",
+    연중무휴: "ALWAYS_OPEN",
+  };
+  const reverseDayMapping = Object.fromEntries(
+    Object.entries(dayMapping).map(([kor, eng]) => [eng, kor])
+  );
   const [storeName, setStoreName] = useState("");
   const [storeAddress, setStoreAddress] = useState("");
   const [openHour, setOpenHour] = useState("");
@@ -18,23 +32,22 @@ export default function RegisterStore() {
   const [category, setCategory] = useState("");
   const [intro, setIntro] = useState("");
   const [imageFile, setImageFile] = useState(null);
-  const navigate = useNavigate();
-
-  // state 추가
   const [preview, setPreview] = useState(null);
+  const navigate = useNavigate();
+  const { storeId } = useParams(); //URL에서 storeId가져오기
+
   // 모든 값이 다 채워졌는지 검사
   const isFormValid =
-    storeName.trim() &&
-    storeAddress.trim() &&
-    openHour.trim() &&
-    openMin.trim() &&
-    closeHour.trim() &&
-    closeMin.trim() &&
-    dayOff.length > 0 && // 배열 비어있는지 확인
-    phone.trim() &&
-    category.trim() &&
-    intro.trim() &&
-    imageFile; //file 객체 여부 확인
+    String(storeName || "").trim() &&
+    String(storeAddress || "").trim() &&
+    String(openHour || "").trim() &&
+    String(openMin || "").trim() &&
+    String(closeHour || "").trim() &&
+    String(closeMin || "").trim() &&
+    dayOff.length > 0 &&
+    String(phone || "").trim() &&
+    String(category || "").trim() &&
+    String(intro || "").trim();
 
   // 요일 버튼 클릭
   const toggleDayOff = (day) => {
@@ -57,21 +70,11 @@ export default function RegisterStore() {
     }
   };
 
-  // API 호출
+  // 수정 API 호출
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const formData = new FormData();
-    const dayMapping = {
-      월: "MONDAY",
-      화: "TUESDAY",
-      수: "WEDNESDAY",
-      목: "THURSDAY",
-      금: "FRIDAY",
-      토: "SATURDAY",
-      일: "SUNDAY",
-      연중무휴: "ALWAYS_OPEN",
-    };
 
     dayOff.forEach((d) => formData.append("dayOff", dayMapping[d]));
     formData.append("storeName", storeName);
@@ -84,17 +87,53 @@ export default function RegisterStore() {
     if (imageFile) formData.append("storeImage", imageFile);
 
     try {
-      const res = await http.post("/api/stores", formData); //프록시를 통해 쿠키 포함
-      console.log("상점 등록 성공:", res.data);
-      navigate("/signup/merchant/success");
+      const res = await http.patch(`/api/stores/${storeId}`, formData); //프록시를 통해 쿠키 포함
+      console.log("상점 수정 성공:", res.data);
+      navigate(`/merchant/mystore/${storeId}`);
     } catch (err) {
       console.error(err);
     }
   };
 
+  //기존 상점 정보 불러오기
+  useEffect(() => {
+    const fetchStore = async () => {
+      try {
+        const res = await http.get(`/api/stores/${storeId}`);
+        console.log("서버 응답:", res.data);
+        const data = res.data.store;
+        setStoreName(data.storeName || "");
+        setStoreAddress(data.storeAddress || "");
+        const [openH, openM] = (data.openTime ?? "00:00:00")
+          .slice(0, 5)
+          .split(":");
+        const [closeH, closeM] = (data.closeTime ?? "00:00:00")
+          .slice(0, 5)
+          .split(":");
+        setOpenHour(openH);
+        setOpenMin(openM);
+        setCloseHour(closeH);
+        setCloseMin(closeM);
+        // 요일 서버 응답 한글로 변환
+        const dayOffKorean = (data.dayOff || []).map(
+          (d) => reverseDayMapping[d] || d
+        );
+        setDayOff(dayOffKorean);
+        // setDayOff(data.dayOff || []);
+        setPhone(data.storePhoneNumber || "");
+        setCategory(data.category || "");
+        setIntro(data.intro || "");
+        setPreview(data.storeImageUrl || null); // 서버가 주는 이미지
+      } catch (err) {
+        console.error("상점 불러오기 실패:", err);
+      }
+    };
+    fetchStore();
+  }, [storeId]);
+
   return (
     <div>
-      <Header label="상점 등록" />
+      <Header label="상점 수정" />
 
       <form onSubmit={handleSubmit}>
         {/* 상점 이미지 업로드 */}
@@ -256,28 +295,14 @@ export default function RegisterStore() {
             </div>
           </div>
 
-          <div className={styles.inputItem}>
-            <label>한줄 소개글</label>
-            <div className={styles.buttonWrapper}>
-              <button className={styles.writebutton}>직접 입력</button>
-              <button className={styles.aibutton}>AI 추천 받기</button>
-            </div>
-          </div>
-          <input
-            type="text"
-            placeholder="입력해주세요"
-            value={intro}
-            onChange={(e) => setIntro(e.target.value)}
-            style={{
-              display: "block",
-              marginLeft: "30px",
-              marginRight: "auto",
-            }}
+          <StoreIntro
+            storeName={storeName}
+            category={category}
+            intro={intro}
+            onChangeIntro={setIntro}
           />
-          <img />
         </div>
 
-        {/* 페이지 이동 경로 확인 */}
         <CustomButton
           label="완료"
           className={styles.donebutton}
