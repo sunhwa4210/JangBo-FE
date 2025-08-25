@@ -109,8 +109,9 @@ export default function AddProduct() {
           }
         );
         console.log("상품 수정 성공:", res.data);
-        navigate(-1);
       }
+
+      navigate("/merchant/mystore");
     } catch (err) {
       console.error("상품 수정 실패", err.response?.data || err.message);
       alert("상품 수정 중 오류가 발생했습니다.");

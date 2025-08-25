@@ -19,6 +19,7 @@ label {
   height: 42px;
   width: 315px;
   align-items: center;
+  width: fit-content;
 }
 input {
   color: #a6a6a6;

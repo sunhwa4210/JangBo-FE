@@ -1,7 +1,7 @@
 const BASE_URL =
   import.meta?.env?.VITE_API_BASE_URL ||
   process.env.REACT_APP_API_BASE_URL ||
-  "https://3.36.56.52:8080 ";
+  "http://3.36.56.52:8080 ";
 
 /** 고객 회원가입 */
 export async function signupCustomer({

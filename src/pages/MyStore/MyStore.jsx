@@ -11,11 +11,11 @@ import MyPageIcon from "../../assets/btnMypage.svg";
 import { getProducts, getStore } from "../../api/api.js";
 
 export default function MyStore() {
-  const api = axios.create({
-    baseURL: process.env.REACT_APP_API_BASE_URL,
-    timeout: 5000,
-    withCredentials: true,
-  });
+  // const api = axios.create({
+  //   baseURL: process.env.REACT_APP_API_BASE_URL,
+  //   timeout: 5000,
+  //   withCredentials: true,
+  // });
 
   const { storeId } = useParams(); //URL에서 storeId 꺼내기
   const [sort, setSort] = useState("recent"); //기본값 최신순
@@ -58,7 +58,8 @@ export default function MyStore() {
   //상품 삭제
   const handleDeleteProduct = async (productId) => {
     try {
-      await api.delete(`/api/merchants/products/${productId}`);
+      //http로 수정
+      await http.delete(`/api/merchants/products/${productId}`);
       // 성공하면 로컬 상태에서 상품 제거
       setProducts((prev) => prev.filter((p) => p.id !== productId));
       alert("상품이 삭제되었습니다.");

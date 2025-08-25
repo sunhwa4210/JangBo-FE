@@ -5,7 +5,6 @@ import http from "../../api/http";
 import cart from "../../assets/cart-default.svg";
 import icon from "../../assets/arrow-down.svg";
 import Modal from "../MerchantOrder/TabContents/Modal";
-import api from "../../api/api";
 
 export default function Review({
   isOpen,
@@ -21,7 +20,7 @@ export default function Review({
     if (!orderId) return;
     const fetchOrder = async () => {
       try {
-        const res = await api.get(`/api/orders/${orderId}`);
+        const res = await http.get(`/api/orders/${orderId}`);
         setOrder(res.data);
       } catch (error) {
         console.error("주문 불러오기 실패:", error);

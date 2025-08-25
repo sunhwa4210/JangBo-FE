@@ -11,39 +11,39 @@
   text-align: center;
   align-items: center;
   margin-top: 200px;
+
 }
-.subtitle {
-  margin-top: 8px;
+.subtitle{
+    margin-top:8px;
 }
 .search {
   position: fixed;
-  bottom: 80px;
+  bottom: 80px; 
   left: 0;
   right: 0;
   padding: 0 16px;
   background-color: white;
   z-index: 100;
-  margin-bottom: 10px;
 }
 
-.icon {
+.icon{
   width: 115px;
   height: 115px;
   margin-top: 30px;
-  background: rgba(216, 240, 195, 0.4);
+  background: rgba(216,240,195,0.4);
   border-radius: 50%;
   display: flex;
-  align-items: center;
+    align-items: center;
   justify-content: center;
-  box-shadow: 0 0 40px 10px rgba(216, 240, 195, 0.55);
+  box-shadow: 0 0 40px 10px rgba(216,240,195,0.55);
 }
 
-.qTitle {
+.qTitle{
   font-size: 17px;
   font-weight: 600;
   text-align: left;
 }
-.aiHeader {
+.aiHeader{
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -54,23 +54,23 @@
   width: auto;
   padding-left: 22px;
 }
-.ailogo {
-  border-radius: 60px;
-  border: solid 1px hsla(131, 58%, 35%, 1);
+.ailogo{
+ border-radius: 60px;
+ border:solid 1px hsla(131, 58%, 35%, 1);
 }
 
-.aiText {
+.aiText{
   font-size: 15px;
   font-weight: 600;
 }
 
-.qSection {
+.qSection{
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
 }
 
-.answer {
+.answer{
   color: black;
   margin-top: 30px;
   font-size: 12px;
@@ -81,13 +81,13 @@
   padding-left: 22px;
 }
 
-.answerBold {
-  font-size: 12px;
+.answerBold{
+    font-size: 12px;
   font-weight: 600;
 }
 
 /* 조건 질문 텍스트 */
-.condQ {
+.condQ{
   font-size: 12px;
   font-weight: 400;
   text-align: left;
@@ -95,16 +95,17 @@
   margin-bottom: 14px;
 }
 
-.pills {
+
+.pills{
   display: flex;
-  flex-wrap: wrap; /* 한 줄에 안 들어가면 다음 줄로 내려가게 */
-  gap: 16px; /* 버튼 사이 간격 */
-  padding: 0 22px 8px; /* condQ와 좌측 기준 맞춤 (선택) */
+  flex-wrap: wrap;       /* 한 줄에 안 들어가면 다음 줄로 내려가게 */
+  gap: 16px;             /* 버튼 사이 간격 */
+  padding: 0 22px 8px;   /* condQ와 좌측 기준 맞춤 (선택) */
   align-items: center;
 }
 
-.pill {
-  display: inline-flex;
+.pill{
+  display: inline-flex; 
   align-items: center;
   justify-content: center;
   width: auto;
@@ -115,26 +116,26 @@
   border-radius: 30px;
   background-color: #fff;
   padding: 6px 10px;
-  white-space: nowrap;
+  white-space: nowrap;  
 }
 
 /* 선택된 pill 스타일(있다면) */
-.pillActive {
+.pillActive{
   color: #fff;
   background-color: hsla(131, 58%, 35%, 1);
   border-color: hsla(131, 58%, 35%, 1);
 }
 
 /* 우측 정렬된 Echo pill 컨테이너 */
-.selectedEchoRow {
+.selectedEchoRow{
   display: flex;
-  justify-content: flex-end; /* 👉 오른쪽 정렬 */
-  padding: 8px 22px 0; /* 좌/우 여백은 condQ와 맞춤 */
+  justify-content: flex-end;   /* 👉 오른쪽 정렬 */
+  padding: 8px 22px 0;         /* 좌/우 여백은 condQ와 맞춤 */
 }
 
 /* 우측 Echo pill (사용자 선택 복제) */
-.selectedEchoPill {
-  display: inline-flex;
+.selectedEchoPill{
+  display: inline-flex; 
   align-items: center;
   justify-content: center;
   width: auto;
@@ -143,23 +144,23 @@
   color: white;
   border-radius: 30px;
   padding: 6px 10px;
-  white-space: nowrap;
-  background-color: hsla(131, 58%, 35%, 1);
+  white-space: nowrap; 
+  background-color:hsla(131, 58%, 35%, 1) ;
   margin-top: 50px;
 }
 
 /* "찾는 중…" 문구 */
-.findingText {
-  margin-top: 50px;
-  margin-left: 22px;
-  margin-bottom: 50px; /* 좌측 여백 condQ와 동일선 */
+.findingText{
+  margin-top: 50px;  
+  margin-left:22px; 
+  margin-bottom: 50px;     /* 좌측 여백 condQ와 동일선 */
   font-size: 12px;
-  color: #9aa4aa; /* 연한 회색 */
+  color: #9aa4aa;              /* 연한 회색 */
   letter-spacing: 0.1px;
   text-align: left;
 }
 
-.sectionTitle {
+.sectionTitle{
   text-align: left;
   margin-left: 22px;
   font-size: 12px;
@@ -167,19 +168,19 @@
   margin-bottom: 19px;
 }
 
-.recoDesc {
+.recoDesc{
   font-size: 10px;
   font-weight: 400;
-  color: black;
+  color:black;
   text-align: left;
   margin-left: 22px;
   margin-right: 22px;
 }
 
-.recoDesc2 {
+.recoDesc2{
   font-size: 10px;
   font-weight: 400;
-  color: black;
+  color:black;
   text-align: left;
   margin-left: 22px;
   margin-right: 22px;
@@ -187,7 +188,7 @@
   margin-bottom: 11px;
 }
 
-.list {
+.list{
   display: flex;
   flex-direction: column;
   border-bottom: solid 1px hsla(0, 0%, 95%, 1);
@@ -197,46 +198,44 @@
   margin-bottom: 11px;
 }
 
-.item {
+.item{
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 0;
-  border-bottom: 1px solid hsla(0, 0%, 95%, 1);
+  padding: 12px 0;                            
+  border-bottom: 1px solid hsla(0,0%,95%,1);   
 }
-.item:last-child {
-  border-bottom: 0;
-}
-.left {
+.item:last-child{ border-bottom: 0; }       
+.left{
   display: flex;
   flex-direction: row;
   align-items: center;
   gap: 20px;
 }
-.thumb {
+.thumb{
   width: 45px;
   height: 45px;
   background-color: hsla(0, 0%, 75%, 1);
   border-radius: 5px;
 }
 
-.meta {
+.meta{
   text-align: left;
 }
 
-.name {
-  font-size: 10px;
+.name{
+  font-size:10px;
   font-weight: 400;
-  color: hsla(0, 0%, 0%, 1);
+  color: hsla(0, 0%, 0%, 1)
 }
 
-.subStore {
-  font-size: 8px;
+.subStore{
+  font-size:8px;
   font-weight: 400;
-  color: hsla(0, 0%, 75%, 1);
+  color: hsla(0, 0%, 75%, 1)
 }
-.subPrice {
-  font-size: 8px;
+.subPrice{
+  font-size:8px;
   font-weight: 600;
   margin-top: 8px;
 }
@@ -245,14 +244,17 @@
   display: inline-flex;
   align-items: center;
   justify-content: space-between;
-  gap: 6px; /* - / 수량 / + 간 간격 */
+  gap: 6px;                 /* - / 수량 / + 간 간격 */
   height: 24px;
-  width: 63px; /* 좌우 여백 */
+  width: 63px;                  /* 좌우 여백 */
   background: #fff;
-  border: 0.8px solid hsla(0, 0%, 95%, 1); /* 연한 테두리 */
-  border-radius: 30px;
+  border: 0.8px solid hsla(0, 0%, 95%, 1);   /* 연한 테두리 */
+  border-radius: 30px; 
   padding: 4px 5px;
+
+  
 }
+
 
 /* 버튼 공통: 아이콘처럼 보이게 */
 .stepper button {
@@ -262,22 +264,18 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 10px; /* +, - 크기 */
+  font-size: 10px;          /* +, - 크기 */
   font-weight: 500;
   color: #111;
   cursor: pointer;
 }
 
 /* 호버/활성 피드백 */
-.stepper button:hover {
-  background: rgba(0, 0, 0, 0.04);
-}
-.stepper button:active {
-  transform: translateY(0.5px);
-}
+.stepper button:hover { background: rgba(0,0,0,0.04); }
+.stepper button:active { transform: translateY(0.5px); }
 
 .stepper button[disabled] {
-  opacity: 0.45;
+  opacity: .45;
   cursor: not-allowed;
   background: transparent;
 }
@@ -288,31 +286,33 @@
   font-size: 10px;
   font-weight: 400;
   color: #111;
+
+
 }
-.rightRow {
-  display: flex;
+.rightRow{
+  display:flex;
   flex-direction: row;
   gap: 12px;
   align-items: center;
 }
-.addBtn {
-  width: 24px;
-  height: 24px;
-  background: #fff;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid rgba(0, 0, 0, 0.18);
-  border-radius: 4px;
+.addBtn{
+  width:24px;
+  height:24px;
+    background:#fff;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+      border:1px solid rgba(0,0,0,.18);
+      border-radius: 4px;
 }
 
-.ctaRow {
+.ctaRow{
   display: flex;
   flex-direction: row;
   justify-content: center;
 }
 
-.pillPrimary {
+.pillPrimary{
   color: #fff;
   background-color: hsla(131, 58%, 35%, 1);
   border-color: hsla(131, 58%, 35%, 1);

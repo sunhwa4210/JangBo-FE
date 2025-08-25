@@ -45,8 +45,7 @@ export default function BottomSheetStore({ isOpen, onClose, store }) {
             </div>
             <div className={styles.item}>
               <img src={rate} />
-              {/* <div>{store.rate}</div> */}
-              <div>4.5</div>
+              <div>{store.rate}</div>
             </div>
           </div>
           <div className={styles.image}></div>

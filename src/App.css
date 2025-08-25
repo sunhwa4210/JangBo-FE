@@ -9,5 +9,4 @@ body {
   max-width: 375px;
   min-height: 100vh;
   background-color: #fff;
-  margin-bottom: 64px; /* 하단바와 겹침 방지용 */
 }
