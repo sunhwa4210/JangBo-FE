@@ -20,7 +20,6 @@ import AddProduct from "./pages/MerchantManage/ManageProduct/AddProduct.jsx";
 import EditProduct from "./pages/MerchantManage/ManageProduct/EditProduct.jsx";
 import EditStore from "./pages/MerchantManage/ManageStore/EditStore.jsx";
 import MerchantMy from "./pages/My/MerchantMypage.jsx";
-import Review from "./pages/Review/Review.jsx";
 import PickupComplete from "./pages/Review/PickUpComplete.jsx";
 function App() {
   return (
