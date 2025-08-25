@@ -1,0 +1,15 @@
+.starContainer {
+  display: flex;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.star {
+  width: 28px;
+  height: 28px;
+  transition: transform 0.2s ease;
+}
+
+.star:hover {
+  transform: scale(1.1);
+}

@@ -1,0 +1,99 @@
+label {
+  color: #292929;
+  font-size: 15px;
+  width: 100px;
+  flex-shrink: 0;
+}
+.inputItemBox {
+  display: flex;
+  flex-direction: column;
+}
+.error {
+  color: #f13939;
+  font-size: 10px;
+  font-weight: 600;
+}
+.inputItem {
+  display: flex;
+  border-bottom: 0.333px solid var(--Gray-30, #a6a6a6);
+  height: 42px;
+  width: 315px;
+  align-items: center;
+  width: fit-content;
+}
+input {
+  color: #a6a6a6;
+}
+
+input,
+input:focus {
+  border: none;
+  outline: none;
+  display: flex;
+  font-size: 15px;
+}
+input:focus {
+  color: #292929;
+  font-weight: 600;
+}
+.candidateWrapper {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.candidateButton {
+  padding: 6px 12px;
+  border: 1px solid #28a745;
+  border-radius: 16px;
+  background-color: #fff;
+  color: #28a745;
+  cursor: pointer;
+  font-size: 10px;
+  transition: all 0.2s ease;
+  width: fit-content;
+}
+
+.candidateButton:hover {
+  background-color: #28a745;
+  color: #fff;
+}
+
+.selected {
+  background-color: #28a745;
+  color: #fff;
+  font-weight: 600;
+}
+
+.buttonWrapper {
+  display: flex;
+  margin-left: 20px;
+}
+.aibutton,
+.writebutton {
+  cursor: pointer;
+  background: transparent;
+  color: var(--Green-50, #268f3a);
+  font-size: 12px;
+  font-weight: 600;
+  display: flex;
+  height: 33px;
+  padding: 7px 12px;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid var(--Gray-10, #dadada);
+}
+.writebutton {
+  color: #6c6c6c;
+  margin-right: 10px;
+}
+.active.writebutton {
+  color: #595959;
+  background: var(--Gray-5, #f2f2f2);
+}
+
+.active.aibutton {
+  color: #268f3a;
+  background: var(--Green-5, rgba(216, 240, 195, 0.5));
+}

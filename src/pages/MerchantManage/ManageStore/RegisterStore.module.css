@@ -140,6 +140,34 @@ label {
   color: #268f3a;
   background: var(--Green-5, rgba(216, 240, 195, 0.5));
 }
+
+.candidateWrapper {
+  margin-top: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.candidateButton {
+  padding: 6px 12px;
+  border: 1px solid #28a745;
+  border-radius: 16px;
+  background-color: #fff;
+  color: #28a745;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.candidateButton:hover {
+  background-color: #28a745;
+  color: #fff;
+}
+
+.selected {
+  background-color: #28a745;
+  color: #fff;
+  font-weight: 600;
+}
 .donebutton {
   display: flex;
   margin: 0 auto;

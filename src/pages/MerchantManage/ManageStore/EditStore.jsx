@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import http from "../../../api/http.js";
+import StoreIntro from "./StoreIntro.jsx";
 
 export default function EditStore() {
   const dayMapping = {
@@ -294,28 +295,11 @@ export default function EditStore() {
             </div>
           </div>
 
-          <div className={styles.inputItem}>
-            <label>한줄 소개글</label>
-            <div className={styles.buttonWrapper}>
-              {/* type=button 추가 */}
-              <button type="button" className={styles.writebutton}>
-                직접 입력
-              </button>
-              <button type="button" className={styles.aibutton}>
-                AI 추천 받기
-              </button>
-            </div>
-          </div>
-          <input
-            type="text"
-            placeholder="입력해주세요"
-            value={intro}
-            onChange={(e) => setIntro(e.target.value)}
-            style={{
-              display: "block",
-              marginLeft: "30px",
-              marginRight: "auto",
-            }}
+          <StoreIntro
+            storeName={storeName}
+            category={category}
+            intro={intro}
+            onChangeIntro={setIntro}
           />
         </div>
 

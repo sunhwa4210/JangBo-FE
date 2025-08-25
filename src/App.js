@@ -20,7 +20,8 @@ import AddProduct from "./pages/MerchantManage/ManageProduct/AddProduct.jsx";
 import EditProduct from "./pages/MerchantManage/ManageProduct/EditProduct.jsx";
 import EditStore from "./pages/MerchantManage/ManageStore/EditStore.jsx";
 import MerchantMy from "./pages/My/MerchantMypage.jsx";
-
+import Review from "./pages/Review/Review.jsx";
+import PickupComplete from "./pages/Review/PickUpComplete.jsx";
 function App() {
   return (
     <BrowserRouter>
@@ -42,25 +43,25 @@ function App() {
         <Route path="/ai" element={<AiJangbo />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/my" element={<My />} />
-        {/* 스토어 */}
+        {/* 상점 세부 페이지 */}
         <Route path="/store/:storeId" element={<StorePage />} />
-        {/* 상점 등록 페이지 */}
+        {/* 상점 등록&수정 페이지 */}
         <Route path="/merchant/registerstore" element={<RegisterStore />} />
+        <Route path="/merchant/editstore/:storeId" element={<EditStore />} />
         {/* 상인 메인 페이지 */}
         <Route path="/merchant/mystore/:storeId" element={<MyStore />} />
         {/* 상인 주문/픽업 페이지 */}
         <Route path="/merchant/order" element={<MerchantOrder />} />
-        {/* 상품 등록 페이지 */}
+        {/* 상품 등록&수정 페이지 */}
         <Route path="/merchant/addproduct" element={<AddProduct />} />
-        {/* 상품 수정 페이지 */}
         <Route
           path="/merchant/editproduct/:productId"
           element={<EditProduct />}
         />
-        {/* 상점 수정 페이지 */}
-        <Route path="/merchant/editstore/:storeId" element={<EditStore />} />
         {/* 상인 마이페이지 */}
         <Route path="/merchant/mypage" element={<MerchantMy />} />
+        {/* 리뷰 페이지 */}
+        <Route path="/review" element={<PickupComplete />} />
       </Routes>
     </BrowserRouter>
   );

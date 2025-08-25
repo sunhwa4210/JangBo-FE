@@ -8,6 +8,7 @@ import MerchantMenuBar from "../../components/MerchantMenuBar.jsx";
 import axios from "axios";
 import http from "../../api/http.js";
 import MyPageIcon from "../../assets/btnMypage.svg";
+import { getProducts, getStore } from "../../api/api.js";
 
 export default function MyStore() {
   // const api = axios.create({
@@ -15,15 +16,6 @@ export default function MyStore() {
   //   timeout: 5000,
   //   withCredentials: true,
   // });
-
-  // 상품 API
-  const getProducts = async (sort) => {
-    const res = await http.get("/api/merchants/products", {
-      params: { sort },
-      withCredentials: true,
-    });
-    return res.data;
-  };
 
   const { storeId } = useParams(); //URL에서 storeId 꺼내기
   const [sort, setSort] = useState("recent"); //기본값 최신순
@@ -33,33 +25,30 @@ export default function MyStore() {
   const navigate = useNavigate();
   console.log("MyStore useParams storeId:", storeId);
 
-  //상점 데이터 불러오기
-  useEffect(() => {
-    const fetchStore = async () => {
-      try {
-        const res = await http.get(`/api/stores/${storeId}`);
-        setStore(res.data);
-      } catch (err) {
-        console.error("상점 정보 불러오기 실패:", err);
-      }
-    };
-    fetchStore();
-  }, [storeId]);
-
-  //상품 데이터 불러오기
+  //상점+상품 데이터 불러오기
   useEffect(() => {
     const fetchProducts = async () => {
       try {
+        //상점 데이터
+        const storeRes = await getStore(storeId);
+        setStore(storeRes);
+
+        //store데이터 안의 merchantId 추출
+        const merchantId = storeRes.merchantId;
+        console.log("merchantId:", merchantId);
+
         //상품 데이터
-        const productRes = await getProducts(sort);
+        const productRes = await getProducts(merchantId, sort);
         setProducts(productRes);
       } catch (err) {
         console.error(err);
       }
     };
-
-    fetchProducts();
-  }, [sort]);
+    //storeId 있을때만 api 호출하도록
+    if (storeId) {
+      fetchProducts();
+    }
+  }, [storeId, sort]);
 
   //상점명(헤더) 클릭 시
   const handleStoreClick = () => {
