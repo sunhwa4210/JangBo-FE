@@ -1,33 +1,52 @@
+// src/api/api.js
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: process.env.REACT_APP_API_BASE_URL,
-  timeout: 5000,
-  withCredentials: true, 
+  baseURL: "/api",            // dev 프록시/배포 리버스프록시 가정
+  withCredentials: true,      // 세션 쿠키 전송
+  timeout: 8000,
 });
 
-// 상품 API
-export const getProducts = async (merchantId, sort) => {
-  console.log("getProducts 호출:", merchantId, sort);
-  const res = await api.get(`/api/products/merchants/${merchantId}`, {
-    params: { sort },
-  });
-  return res.data;
-};
+// ========== Products / Store (기존) ==========
+export const getProducts = (merchantId, sort = "recent") =>
+  api.get(`/products/merchants/${merchantId}`, { params: { sort } }).then(r => r.data);
 
-// 상점 API
-export const getStore = async (storeId) => {
-  const res = await api.get(`/api/stores/${storeId}`);
-  return res.data.store;
-};
+export const getStore = (storeId) =>
+  api.get(`/stores/${storeId}`).then(r => r.data.store ?? r.data);
 
-//장바구니 API
-export const addCartItem = async (productId, quantity) => {
-  const res = await api.post(`/api/carts/items`, {
-    productId,
-    quantity,
-  });
-  return res.data;
-};
+export const addCartItem = (productId, quantity = 1) =>
+  api.post(`/carts/items`, { productId, quantity }).then(r => r.data);
+
+// ========== Cart (신규) ==========
+// 장바구니 전체 조회
+export const fetchCart = () =>
+  api.get(`/carts`).then(r => r.data);  // {items, selectedItemCount, ...}
+
+// 선택 항목 요약(합계/수수료/총액)
+export const fetchCartSummary = (selectedItemIds) =>
+  api.post(`/carts/selection/summary`, { selectedItemIds }).then(r => r.data);
+
+// 수량 '절대값'으로 변경
+export const setCartItemQuantity = (itemId, quantity) =>
+  api.post(`/carts/items/${itemId}`, { itemId, quantity }).then(r => r.data);
+
+// 증감
+export const increaseCartItem = (itemId) =>
+  api.patch(`/carts/items/${itemId}/increase`).then(r => r.data);
+
+export const decreaseCartItem = (itemId) =>
+  api.patch(`/carts/items/${itemId}/decrease`).then(r => r.data);
+
+// 개별 삭제
+export const deleteCartItem = (itemId) =>
+  api.delete(`/carts/items/${itemId}`).then(r => r.data);
+
+// 선택 삭제
+export const deleteSelectedCartItems = (itemIds) =>
+  api.delete(`/carts/items`, { data: { itemIds } }).then(r => r.data);
+
+// 전체 비우기
+export const clearCart = () =>
+  api.delete(`/carts`).then(r => r.data);
 
 export default api;

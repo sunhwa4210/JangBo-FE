@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import ManuBar from "../../components/MenuBar";
 import SearchField from "../../components/SearchField";
 import LogoHeader from "../../components/LogoHeader";
@@ -11,6 +12,8 @@ import StoreList from "../../components/StoreList";
 import { fetchStores } from "../../api/stores";
 
 function Main() {
+  const navigate = useNavigate();
+
   const [stores, setStores] = useState([]);
   const [loading, setLoading] = useState(true);
   const [err, setErr] = useState("");
@@ -65,6 +68,22 @@ function Main() {
 
   const handleSearchSubmit = () => setQ(keyword);
 
+  // ✅ 리스트 아이템 클릭 시 라우팅 (안전 가드 포함)
+  const handleStoreItemClick = (store, idFromList) => {
+    const id =
+      idFromList ??
+      store?.storeId ??
+      store?.id ??
+      store?.store_id ??
+      null;
+
+    if (!id) {
+      console.warn("상점 ID가 없어 상세 페이지로 이동하지 않습니다:", store);
+      return;
+    }
+    navigate(`/stores/${id}`);
+  };
+
   return (
     <div>
       <div className={styles.header}><LogoHeader /></div>
@@ -99,10 +118,7 @@ function Main() {
         stores={filtered}
         loading={loading}
         error={err}
-        onItemClick={(store) => {
-          // TODO: 상세로 라우팅 연결 (예: navigate(`/stores/${store.storeId}`))
-          console.log("clicked store", store);
-        }}
+        onItemClick={handleStoreItemClick}  // ← 여기서 명확히 라우팅 제어
       />
 
       <ManuBar />

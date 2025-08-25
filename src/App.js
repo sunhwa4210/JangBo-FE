@@ -41,7 +41,7 @@ function App() {
         <Route path="/my" element={<My />} />
 
         {/* 스토어 */}
-        <Route path="/store/:storeId" element={<StorePage />} />
+        <Route path="/stores/:storeId" element={<StorePage />} />
         {/* 상점 등록 페이지 */}
         <Route path="/merchant/registerstore" element={<RegisterStore />} />
         {/* 상인 메인 페이지 */}

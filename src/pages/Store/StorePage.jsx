@@ -81,6 +81,7 @@ export default function StorePage() {
       <Header
         label={store?.storeName}
         onTitleClick={handleStoreClick}
+        to="/main"
       />
       <div className={styles.topBar}>
         <div className={styles.count}>판매 상품 {count}개</div>
