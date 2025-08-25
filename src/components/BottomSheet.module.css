@@ -1,0 +1,39 @@
+.wrap{
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,.35);
+  opacity: 0; pointer-events: none;
+  transition: opacity .25s ease;
+  z-index: 1000;
+}
+.open{ opacity: 1; pointer-events: auto; }
+
+.sheet{
+  position: absolute; left: 0; right: 0; bottom: -100%;
+  background: #fff;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+  box-shadow: 0 -12px 32px rgba(0,0,0,.18);
+  max-height: 85vh;
+  display: flex; flex-direction: column;
+  transform: translateY(24px);
+  transition: transform .28s ease, bottom .28s ease;
+}
+.open .sheet{ bottom: 0; transform: translateY(0); }
+
+.handle{
+  width: 44px; height: 5px; border-radius: 999px;
+  background: #e5e7eb; margin: 10px auto 6px;
+}
+
+.header{
+  position: relative;
+  display: flex; align-items: center; justify-content: center;
+  padding: 4px 16px 10px;
+  font-weight: 800;
+}
+.title{ font-size: 16px; }
+.close{
+  position: absolute; right: 10px; top: 2px;
+  border: 0; background: transparent; font-size: 22px; opacity: .6;
+}
+.content{ overflow: auto; padding: 8px 16px 16px; }
