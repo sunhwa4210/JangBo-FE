@@ -5,12 +5,13 @@ export default function Modal({
   onClose,
   title,
   message,
+  cancel,
+  button,
   inputField,
   onConfirm,
 }) {
   if (!isOpen) return null;
 
-  //props받는걸로 바꾸기
   return (
     <div className={styles.overlay} onClick={onClose}>
       <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
@@ -19,10 +20,10 @@ export default function Modal({
         {inputField && <div className={styles.input}>{inputField}</div>}
         <div className={styles.btnwrapper}>
           <button className={styles.cancel} onClick={onClose}>
-            취소
+            {cancel}
           </button>
           <button className={styles.accept} onClick={onConfirm}>
-            {title}
+            {button}
           </button>
         </div>
       </div>

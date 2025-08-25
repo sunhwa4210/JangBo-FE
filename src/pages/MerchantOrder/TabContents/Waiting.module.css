@@ -30,6 +30,9 @@
   gap: 10px;
   margin-top: 22px;
 }
+button{
+  cursor: pointer;
+}
 .cancel {
   display: flex;
   align-items: center;

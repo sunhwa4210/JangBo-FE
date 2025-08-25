@@ -19,8 +19,7 @@ export default function BottomSheetStore({ isOpen, onClose, store }) {
 
         <div className={styles.title}>
           <h3>{store.storeName}</h3>
-          <p>매일 들여오는 신선육!</p> 
-          {/* 추후 수정 */}
+          <p>{store.tagline}</p>
         </div>
         <hr />
 
@@ -28,7 +27,9 @@ export default function BottomSheetStore({ isOpen, onClose, store }) {
           <div className={styles.list}>
             <div className={styles.item}>
               <img src={clock} />
-              <div>{store?.openTime} ~ {store?.closeTime}</div>
+              <div>
+                {store?.openTime} ~ {store?.closeTime}
+              </div>
             </div>
             <div className={styles.item}>
               <img src={dayoff} />

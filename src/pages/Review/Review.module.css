@@ -1,0 +1,96 @@
+.overlay {
+  position: fixed;
+  inset: 0; /*브라우저 전체 덮음*/
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  align-items: flex-end;
+  z-index: 999;
+}
+.sheet {
+  width: 100%;
+  max-width: 375px; /* 모바일 최대 너비 맞춤 */
+  height: 700px;
+  background: white;
+  border-radius: 12px 12px 0 0;
+  padding: 12px 30px;
+  box-shadow: 0 -4px 4px 0 rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+  animation: slideUp 0.3s ease-out;
+  gap: 18px;
+  display: flex;
+  flex-direction: column;
+}
+.handle {
+  width: 80px;
+  height: 5px;
+  background-color: #595959;
+  border-radius: 50px;
+  margin: 0 auto;
+  margin-bottom: 46px;
+}
+h2 {
+  font-size: 24px;
+}
+.message{
+  font-size: 13px;
+  margin-bottom: 16px;
+}
+.card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--Gray-30, #f2f2f2);
+  border-radius: 12px;
+  width: 315px;
+  padding: 15px 12px;
+  align-items: center;
+  box-sizing: border-box;
+}
+.wrapper {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+.wrapper div {
+  font-size: 15px;
+}
+.content {
+  display: flex;
+  gap: 12px;
+}
+.image {
+  width: 50px;
+  height: 50px;
+  background-color: #f2f2f2;
+  border-radius: 7px;
+  border: none;
+}
+.text {
+  display: flex;
+  flex-direction: column;
+  width: 193px;
+  margin-bottom: 30px;
+}
+.name {
+  font-size: 12px;
+  font-weight: 600;
+}
+.store {
+  font-size: 11px;
+}
+.date {
+  font-weight: 600;
+  font-size: 13px;
+}
+.cart {
+  width: 24px;
+  height: 24px;
+  padding: 5px;
+}
+.subtext {
+  color: grey;
+  font-size: 13px;
+  font-weight: 600;
+  text-align: center;
+  margin-top: 30px;
+}
