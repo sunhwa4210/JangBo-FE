@@ -1,70 +1,85 @@
-# Getting Started with Create React App
+# 장보는 친구 (JangBo)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+전통시장과 청년·1인 가구 소비자를 연결하는 **AI 기반 장보기 플랫폼**  
+메뉴 입력 → AI 재료 추천 → 최적 상점 매칭 → O2O 픽업 주문 흐름을 제공합니다.
 
-## Available Scripts
 
-In the project directory, you can run:
+## 1. 프로젝트 소개
 
-### `npm start`
+**장보는 친구**는 노원 공릉동 도깨비시장을 중심으로,  
+전통시장 상인의 디지털 판매 진입을 돕고 청년 소비자에게는 편리한 장보기 경험을 제공하는 서비스입니다.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- 소비자: 메뉴 기반 AI 장보기로 검색/비교 부담을 줄인 장보기 경험 제공
+- 상인: 직관적인 사용성과 상인회 연계를 통해 디지털 판매 진입 장벽 완화
+- 운영 모델: 무분별한 택배 사용과 포장 쓰레기를 줄이기 위해 **O2O(픽업)** 중심으로 설계
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
 
-### `npm test`
+## 2. 문제 배경
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+현장 인터뷰와 리서치를 통해 확인한 전통시장의 주요 문제는  
+**고령화와 디지털 단절로 인한 고객 감소**였습니다.
 
-### `npm run build`
+- 상인의 상당수가 60대 이상으로 온라인 판매 역량이 부족하고, 시장 매출이 점차 감소
+- 청년층·1인 가구는 합리적이고 편리한 쇼핑을 선호하지만  
+  전통시장은 접근성과 정보 부족으로 쉽게 찾지 않음
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## 3. 문제 구조화
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+사용자 조사와 테스트를 통해 문제를 다음과 같이 구조화했습니다.
 
-### `npm run eject`
+- **탐색 단계**  
+  어떤 가게에 어떤 상품이 있는지 알기 어렵고,  
+  가격·구성을 직접 비교해야 해 진입 장벽이 높음
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- **구매 결정 단계**  
+  소량 구매가 어려워 최소 구매량 부담이 크고,  
+  장보기 동선을 사용자가 직접 판단해야 함
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- **구매·수령 단계**  
+  온라인은 편리하지만 과도한 포장과 비용이 발생하고,  
+  오프라인은 환경적으로 좋지만 시간·효율이 떨어짐
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+즉, 문제의 핵심은  
+“전통시장에 좋은 상품이 없어서”가 아니라  
+**사용자가 장보기 전 과정에서 계속 판단해야만 가능한 UX 구조**였습니다.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-## Learn More
+## 4. 해결 방식
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- **메뉴 기반 AI 추천**  
+  사용자가 메뉴를 입력하면 필요한 재료를 자동으로 분석하고 추천하여 비교 과정을 단순화
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- **소량·소분 단위 구매 지원**  
+  최소 구매량 부담을 낮춰 1인 가구·청년 소비자에게 적합한 구매 경험 제공
 
-### Code Splitting
+- **O2O 픽업 모델**  
+  온라인에서 주문하고 시장에서 픽업하도록 설계하여 포장·택배 사용을 줄이고 시장 방문 경험을 연결
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
 
-### Analyzing the Bundle Size
+## 5. 서비스 흐름
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+1. 홈 화면 진입 및 장보기 시작
+2. 메뉴 입력
+3. AI 추천 결과 확인
+4. 상점/상품 선택
+5. 주문 바텀시트에서 주문 정보 확인 및 요청
+6. 픽업 주문 완료
 
-### Making a Progressive Web App
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## 6. 담당 역할 (Frontend)
 
-### Advanced Configuration
+- 홈 화면 렌더링 및 API 연동
+- AI 추천 화면 렌더링 및 API 연동
+- 주문 바텀시트 렌더링 및 주문 API 연동
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
 
-### Deployment
+## 7. 사용 기술
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+- Frontend: React
+- Language: JavaScript
 
-### `npm run build` fails to minify
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+
+
